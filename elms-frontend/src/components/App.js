@@ -7,6 +7,8 @@ import ForgotPassword from "./forgotPassword"
 import Login from "./login/login"
 import Sidebar from "./navbar/sidebar"
 import PrivateRoute from "./privateRoute"
+import Profile from "./profile"
+import RegisterCourse from "./registerCourse"
 import Signup from "./signUp"
 import UpdateProfile from "./updateProfile"
 
@@ -29,7 +31,9 @@ function App() {
 						<div class="col-sm-11">
 							<Switch>
 								<PrivateRoute exact path="/dashboard" component={Dashboard} />
+								<PrivateRoute path="/profile" component={Profile} />
 								<PrivateRoute path="/update-profile" component={UpdateProfile} />
+								<PrivateRoute path="/register-course" component={RegisterCourse} />
 								<Route path="/signup" component={Signup} />
 								<Route path="/login" component={Login} />
 								<Route path="/forgot-password" component={ForgotPassword} />

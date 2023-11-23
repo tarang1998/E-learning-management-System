@@ -1,35 +1,55 @@
 import React from "react"
-import { Container } from "react-bootstrap"
+import { Container, Row } from "react-bootstrap"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { AuthProvider } from "../contexts/authContext"
 import Dashboard from "./dashboard"
 import ForgotPassword from "./forgotPassword"
-import Login from "./login"
+import Login from "./login/login"
+import Sidebar from "./navbar/sidebar"
 import PrivateRoute from "./privateRoute"
 import Signup from "./signUp"
 import UpdateProfile from "./updateProfile"
 
 function App() {
-  return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <div className="w-100" style={{ maxWidth: "450px" }}>
-        <Router>
-          <AuthProvider>
-            <Switch>
-              <PrivateRoute exact path="/" component={Dashboard} />
-              <PrivateRoute path="/update-profile" component={UpdateProfile} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/login" component={Login} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-            </Switch>
-          </AuthProvider>
-        </Router>
-      </div >
-    </Container >
-  )
+
+
+	return (
+
+		<div className="conatiner">
+
+
+			<AuthProvider>
+
+				<Router>
+					<div className="row">
+
+						<div class="col-sm-1">
+							<Sidebar />
+						</div>
+						<div class="col-sm-11">
+							<Switch>
+								<PrivateRoute exact path="/dashboard" component={Dashboard} />
+								<PrivateRoute path="/update-profile" component={UpdateProfile} />
+								<Route path="/signup" component={Signup} />
+								<Route path="/login" component={Login} />
+								<Route path="/forgot-password" component={ForgotPassword} />
+							</Switch>
+						</div>
+
+
+					</div>
+
+
+
+
+				</Router>
+			</AuthProvider>
+
+
+
+
+		</div >
+	)
 }
 
 export default App

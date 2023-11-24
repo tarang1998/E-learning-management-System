@@ -1,9 +1,55 @@
-import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+import "reflect-metadata";
+import { Config } from "./config";
+import { container } from "./dependencyInjectionContainer";
+import { StatusCodes } from "./errors";
+import { getUnregisteredCoursesForStudent } from "./studentManagment/gateway/getUnregisteredCoursesForStudent/orchestrator";
 
-// // Start writing functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+
+const express = require('express');
+const cookieParser = require('cookie-parser')();
+const cors = require('cors')({origin: true});
+
+const studentApi = express();
+// const courseApi = express();
+
+
+admin.initializeApp();  
+const config : Config = container.get(Config);
+const functions = config.getFunctions();
+
+
+
+studentApi.use(cors);
+studentApi.use(cookieParser);
+
+
+studentApi.get('/v1/getUnregisteredCoursesForStudent', async (req: any, res: any) => {
+    try{
+
+        const productData : {[x:string] : any} = await getUnregisteredCoursesForStudent(req.query);
+
+        res.status(StatusCodes.SUCCESS).send(productData)
+
+    }
+    catch(error){
+
+        functions.logger.error(`Error Occured : ${error}`);
+
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error. Please contact support")
+
+    }
+
+
+});
+
+
+exports.students = functions
+.runWith({
+  timeoutSeconds: 540,
+  memory : "4GB"
+  
+}).https.onRequest(studentApi);
+
+
+

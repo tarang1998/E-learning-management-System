@@ -35,13 +35,17 @@ export function AuthProvider({ children }) {
     return currentUser.updatePassword(password)
   }
 
-  function getCurrentUser(){
+  function getCurrentUser() {
     return currentUser
   }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       setCurrentUser(user)
+      if (user) {
+        localStorage.setItem('userId', user._delegate.uid);
+
+      }
       setLoading(false)
     })
 

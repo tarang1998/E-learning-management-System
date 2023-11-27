@@ -1,12 +1,14 @@
 import 'package:elmsflutterapp/app/auth/domain/usecases/authenticate_with_email_password_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.dart';
+import 'package:elmsflutterapp/app/home/domain/entities/userEntity.dart';
+import 'package:elmsflutterapp/app/home/domain/usecase/get_user_data_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../../core/presentation/observer.dart';
-import '../../../injection_container.dart';
-import '../../navigation_service.dart';
+import '../../../../core/presentation/observer.dart';
+import '../../../../injection_container.dart';
+import '../../../navigation_service.dart';
 import 'signin_presenter.dart';
 import 'signin_state_machine.dart';
 
@@ -15,7 +17,6 @@ class SigninController extends Controller {
   final SignInStateMachine _stateMachine = new SignInStateMachine();
   final NavigationService? _navigationService =
       serviceLocator<NavigationService>();
-
 
   final TextEditingController emailTextController;
   final TextEditingController passwordTextController;
@@ -30,7 +31,6 @@ class SigninController extends Controller {
   @override
   void initListeners() {}
 
- 
   @override
   void onDisposed() {
     _presenter!.dispose();
@@ -40,9 +40,11 @@ class SigninController extends Controller {
   void signinWithEmailAndPassword() async {
     _stateMachine.onEvent(SignInClickedEvent());
     refreshUI();
-    _presenter!.loginWithEmailAndPassword(
-         UseCaseObserver(
-            _handleSignInSuccess, (error) => _handleSignInError(error: error)),
+    _presenter!.signIn(
+        UseCaseObserver(() {}, (error) => _handleSignInError(error: error),
+            onNextFunc: (UserEntity user) {
+          _handleSignInSuccess(user);
+        }),
         emailTextController.text.trim(),
         passwordTextController.text,
         signInAsInstructor);
@@ -52,10 +54,15 @@ class SigninController extends Controller {
     return _stateMachine.getCurrentState();
   }
 
-  _handleSignInSuccess() {
+  _handleSignInSuccess(UserEntity user) {
     print('Login Success');
-    _navigationService!
-        .navigateTo(NavigationService.homepage, shouldReplace: true);
+    if (user.runtimeType == StudentUserEntity) {
+      _navigationService!
+          .navigateTo(NavigationService.homepageStudent, shouldReplace: true);
+    } else {
+      _navigationService!.navigateTo(NavigationService.homepageInstructor,
+          shouldReplace: true);
+    }
   }
 
   _handleSignInError({required error}) {
@@ -76,6 +83,14 @@ class SigninController extends Controller {
         msg:
             "You've had too many unsuccessful login attempts. Please try again in some time.",
       );
+    } else if (error.runtimeType == StudentDataDoesNotExistException) {
+      Fluttertoast.showToast(
+        msg: "A student account with this email does not exist",
+      );
+    } else if (error.runtimeType == InstructorDataDoesNotExistException) {
+      Fluttertoast.showToast(
+        msg: "An instructor account with this email does not exist",
+      );
     } else if (error.runtimeType == LoginException) {
       Fluttertoast.showToast(
         msg: "There was an error while signing in.",
@@ -86,8 +101,6 @@ class SigninController extends Controller {
       );
     }
   }
-
- 
 
   void passwordResetRequested(
       {required String email, required BuildContext context}) {
@@ -104,7 +117,8 @@ class SigninController extends Controller {
 
   _handleForgotPasswordSuccess(BuildContext context) {
     _navigationService!.navigateBack();
-    Fluttertoast.showToast(msg: "Reset password link has been sent to your email");
+    Fluttertoast.showToast(
+        msg: "Reset password link has been sent to your email");
     _stateMachine.onEvent(SignInInitEvent());
     refreshUI();
   }
@@ -126,8 +140,8 @@ class SigninController extends Controller {
       );
     } else if (error.runtimeType == ForgotPasswordTooManyRequestException) {
       Fluttertoast.showToast(
-        msg: "You've had too many unsuccessful reset password attempts. Please try again in some time."
-      );
+          msg:
+              "You've had too many unsuccessful reset password attempts. Please try again in some time.");
     } else if (error.runtimeType == ForgotPasswordException) {
       Fluttertoast.showToast(
         msg: "An unexpected error occured. Please try again in some time.",

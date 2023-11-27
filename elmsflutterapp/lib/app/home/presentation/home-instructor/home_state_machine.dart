@@ -1,4 +1,4 @@
-import '../../../../core/presentation/state_machine.dart';
+import '../../../../../../core/presentation/state_machine.dart';
 
 class HomePageStateMachine extends StateMachine<HomePageState?, HomePageEvent> {
   HomePageStateMachine() : super(new HomePageLoadingState());

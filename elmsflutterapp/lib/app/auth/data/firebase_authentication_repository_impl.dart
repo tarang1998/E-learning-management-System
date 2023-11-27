@@ -2,6 +2,7 @@ import 'package:elmsflutterapp/app/auth/data/user_config.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/authenticate_with_email_password_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/repository/authentication_repository.dart';
 
@@ -16,11 +17,17 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
   Future<bool> checkLoginStatus() async {
     User? firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      int? isUserAnInstructor = prefs.getInt('isUserAnInstructor');
+      if (isUserAnInstructor == null) {
+        return false;
+      }
       UserConfig.resetUserData();
+
       UserConfig(
-        uid: FirebaseAuth.instance.currentUser!.uid,
-        email: FirebaseAuth.instance.currentUser!.email!,
-      );
+          uid: FirebaseAuth.instance.currentUser!.uid,
+          email: FirebaseAuth.instance.currentUser!.email!,
+          isUserAnInstructor: isUserAnInstructor == 1 ? true : false);
 
       return true;
     } else {
@@ -29,16 +36,26 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
   }
 
   @override
-  Future<void> authenticateWithEmailAndPassword(
-      {required String email, required String password}) async {
+  Future<String> authenticateWithEmailAndPassword(
+      {required String email,
+      required String password,
+      required bool isUserAnInstructor}) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt('isUserAnInstructor', isUserAnInstructor ? 1 : 0);
+
       UserConfig.resetUserData();
-      UserConfig(uid: FirebaseAuth.instance.currentUser!.uid, email: email);
+      UserConfig(
+          uid: FirebaseAuth.instance.currentUser!.uid,
+          email: email,
+          isUserAnInstructor: isUserAnInstructor);
+
+      return FirebaseAuth.instance.currentUser!.uid;
     } on FirebaseAuthException catch (error) {
       FirebaseAuthException firebaseAuthxception = error;
       String errorCode = firebaseAuthxception.code;
@@ -85,5 +102,15 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
     } catch (error) {
       throw ForgotPasswordException();
     }
+  }
+
+  @override
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.remove('isUserAnInstructor');
+    UserConfig.resetUserData();
+    return;
   }
 }

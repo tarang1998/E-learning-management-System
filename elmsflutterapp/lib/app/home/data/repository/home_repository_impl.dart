@@ -1,0 +1,34 @@
+import 'package:elmsflutterapp/app/home/data/wrapper/home_firebase_wrapper.dart';
+import 'package:elmsflutterapp/app/home/domain/entities/userEntity.dart';
+import 'package:elmsflutterapp/app/home/domain/repository/home_repository.dart';
+
+class HomeRepositoryImpl implements HomeRepository {
+  final HomeFirebaseWrapper firebaseWrapper;
+  HomeRepositoryImpl(this.firebaseWrapper);
+
+  InstructorUserEntity? instructorUserEntity;
+  StudentUserEntity? studentUserEntity;
+
+  @override
+  Future<UserEntity> getUserData(
+      {required String userId, required isUserAnInstructor}) async {
+    if (isUserAnInstructor) {
+      if (instructorUserEntity != null) {
+        return instructorUserEntity!;
+      }
+      Map<String, dynamic> data =
+          await firebaseWrapper.getInstructorData(instructorId: userId);
+      return InstructorUserEntity(
+          id: data["id"], email: data["email"], name: data["name"]);
+    } else {
+      if (studentUserEntity != null) {
+        return studentUserEntity!;
+      }
+
+      Map<String, dynamic> data =
+          await firebaseWrapper.getStudentData(studentId: userId);
+      return StudentUserEntity(
+          id: data["id"], email: data["email"], name: data["name"]);
+    }
+  }
+}

@@ -9,13 +9,16 @@ class AuthenticateWithEmailAndPasswordUseCase
   AuthenticateWithEmailAndPasswordUseCase(this._repository);
 
   @override
-  Future<Stream<void>> buildUseCaseStream(
+  Future<Stream<String>> buildUseCaseStream(
       AuthenticateWithEmailAndPasswordParams? params) async {
-    final StreamController streamController = StreamController();
+    final StreamController<String> streamController = StreamController();
     try {
-      await _repository.authenticateWithEmailAndPassword(
-          email: params!._email, password: params._password);
+      String userId = await _repository.authenticateWithEmailAndPassword(
+          email: params!._email, 
+          password: params._password,
+          isUserAnInstructor: params.isUserAnInstructor);
       print("Authentication successful");
+      streamController.add(userId);
       streamController.close();
     } catch (error) {
       streamController.addError(error);

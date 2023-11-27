@@ -38,9 +38,12 @@ dependencies:
   flutter_clean_architecture: ^5.0.4
   firebase_auth: ^4.14.1
   firebase_core: ^2.23.0
+  cloud_firestore: ^4.13.2
   get_it: ^7.6.4
   modal_progress_hud_alt: ^1.0.0
   fluttertoast: ^8.0.2
+  shared_preferences: ^2.0.6
+  url_launcher: ^6.2.1
 
 dev_dependencies:
   flutter_test:

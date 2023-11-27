@@ -3,12 +3,12 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart' as f
 import 'home_controller.dart';
 import 'home_state_machine.dart';
 
-class HomePage extends fa.View {
+class HomepageInstructor extends fa.View {
   @override
   State<StatefulWidget> createState() => HomeViewState();
 }
 
-class HomeViewState extends fa.ResponsiveViewState<HomePage, HomePageController> {
+class HomeViewState extends fa.ResponsiveViewState<HomepageInstructor, HomePageController> {
   HomeViewState() : super(new HomePageController());
 
   @override
@@ -18,7 +18,7 @@ class HomeViewState extends fa.ResponsiveViewState<HomePage, HomePageController>
   }
 
   @override
-  Widget get desktopView => throw UnimplementedError();
+  Widget get desktopView => mobileView;
 
   @override
   Widget get mobileView => fa.ControlledWidgetBuilder<HomePageController>(
@@ -73,7 +73,7 @@ class HomeViewState extends fa.ResponsiveViewState<HomePage, HomePageController>
     // controller.getProfileInfo();
     return Scaffold(
         key: globalKey,
-        body: Text("Home")
+        body: Text("Home Instructor")
         // Shimmer.fromColors(
         //   baseColor: Colors.grey[300]!,
         //   highlightColor: Colors.grey[100]!,

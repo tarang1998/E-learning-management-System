@@ -6,13 +6,13 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'home_state_machine.dart';
 
 class HomePageController extends Controller {
-  final HomePagePresenter? _presenter;
+  // final HomePagePresenter? _presenter;
   final HomePageStateMachine _stateMachine = new HomePageStateMachine();
   NavigationService? navigationService = serviceLocator<NavigationService>();
 
-  HomePageController()
-      : _presenter = serviceLocator<HomePagePresenter>(),
-        super();
+  // HomePageController()
+  //     : _presenter = serviceLocator<HomePagePresenter>(),
+  //       super();
 
   @override
   void initListeners() {}

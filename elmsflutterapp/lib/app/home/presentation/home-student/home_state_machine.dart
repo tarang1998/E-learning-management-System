@@ -1,73 +1,74 @@
+import 'package:elmsflutterapp/app/home/domain/entities/userEntity.dart';
 import '../../../../../../core/presentation/state_machine.dart';
 
-class HomePageStateMachine extends StateMachine<HomePageState?, HomePageEvent> {
-  HomePageStateMachine() : super(new HomePageLoadingState());
+class HomePageStudentStateMachine
+    extends StateMachine<HomePageStudentState?, HomePageStudentEvent> {
+  HomePageStudentStateMachine() : super(HomePageStudentLoadingState());
 
   @override
-  HomePageState? getStateOnEvent(HomePageEvent event) {
+  HomePageStudentState? getStateOnEvent(HomePageStudentEvent event) {
     final eventType = event.runtimeType;
-    HomePageState? newState = getCurrentState();
+    HomePageStudentState? newState = getCurrentState();
     switch (eventType) {
-      // case HomePageInitializedEvent:
-      //   HomePageInitializedEvent initEvent = event as HomePageInitializedEvent;
-      //   newState = new HomePageInitState(
-      //       new ProfileEntity(initEvent.userName), 0 //page
-      //       );
-      //   break;
+      case HomePageStudentInitializedEvent:
+        HomePageStudentInitializedEvent initEvent =
+            event as HomePageStudentInitializedEvent;
+        newState = HomePageStudentInitState(initEvent.studentData, 0);
+        break;
 
-      // case HomePageTabClickEvent:
-      //   HomePageTabClickEvent tabClickEvent = event as HomePageTabClickEvent;
-      //   newState =
-      //       new HomePageInitState(tabClickEvent.profile, tabClickEvent.page);
-      //   break;
+      case HomePageStudentTabClickEvent:
+        HomePageStudentTabClickEvent tabClickEvent =
+            event as HomePageStudentTabClickEvent;
+        newState = HomePageStudentInitState(
+            tabClickEvent.studentEntity, tabClickEvent.page);
+        break;
 
-      case HomePageErrorEvent:
-        HomePageErrorEvent errorEvent = event as HomePageErrorEvent;
-        newState = new HomePageErrorState(errorEvent.error.toString());
+      case HomePageStudentErrorEvent:
+        HomePageStudentErrorEvent errorEvent =
+            event as HomePageStudentErrorEvent;
+        newState = HomePageStudentErrorState(errorEvent.error.toString());
         break;
     }
     return newState;
   }
 }
 
-abstract class HomePageEvent {}
+abstract class HomePageStudentEvent {}
 
-class HomePageClickedEvent extends HomePageEvent {}
-
-class HomePageErrorEvent extends HomePageEvent {
+class HomePageStudentErrorEvent extends HomePageStudentEvent {
   final Exception error;
 
-  HomePageErrorEvent(this.error);
+  HomePageStudentErrorEvent(this.error);
 }
 
-class HomePageInitializedEvent extends HomePageEvent {
-  final String userName;
+class HomePageStudentInitializedEvent extends HomePageStudentEvent {
+  final StudentUserEntity studentData;
 
-  HomePageInitializedEvent(
-    this.userName,
+  HomePageStudentInitializedEvent(
+    this.studentData,
   );
 }
 
-// class HomePageTabClickEvent extends HomePageEvent {
-//   ProfileEntity? profile;
-//   final int page;
+class HomePageStudentTabClickEvent extends HomePageStudentEvent {
+  final StudentUserEntity studentEntity;
+  final int page;
 
-//   HomePageTabClickEvent(this.profile, this.page);
-// }
+  HomePageStudentTabClickEvent(this.studentEntity, this.page);
+}
 
-abstract class HomePageState {}
+abstract class HomePageStudentState {}
 
-// class HomePageInitState implements HomePageState {
-//   ProfileEntity? profile;
-//   final int page;
+class HomePageStudentInitState implements HomePageStudentState {
+  final StudentUserEntity studentData;
+  final int page;
 
-//   HomePageInitState(this.profile, this.page);
-// }
+  HomePageStudentInitState(this.studentData, this.page);
+}
 
-class HomePageLoadingState implements HomePageState {}
+class HomePageStudentLoadingState implements HomePageStudentState {}
 
-class HomePageErrorState implements HomePageState {
+class HomePageStudentErrorState implements HomePageStudentState {
   final String errorMessage;
 
-  HomePageErrorState(this.errorMessage);
+  HomePageStudentErrorState(this.errorMessage);
 }

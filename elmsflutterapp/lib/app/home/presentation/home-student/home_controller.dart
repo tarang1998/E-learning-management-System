@@ -1,80 +1,70 @@
+import 'package:elmsflutterapp/app/home/domain/entities/userEntity.dart';
 import 'package:elmsflutterapp/app/home/presentation/home-student/home_presentor.dart';
 import 'package:elmsflutterapp/app/navigation_service.dart';
+import 'package:elmsflutterapp/core/presentation/observer.dart';
 import 'package:elmsflutterapp/injection_container.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-// import 'home_presentor.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'home_state_machine.dart';
 
-class HomePageController extends Controller {
-  final HomePagePresenter? _presenter;
-  final HomePageStateMachine _stateMachine = new HomePageStateMachine();
+class HomePageStudentController extends Controller {
+  final HomePageStudentPresenter? _presenter;
+  final HomePageStudentStateMachine _stateMachine =
+      HomePageStudentStateMachine();
   NavigationService? navigationService = serviceLocator<NavigationService>();
 
-  HomePageController()
-      : _presenter = serviceLocator<HomePagePresenter>(),
+  HomePageStudentController()
+      : _presenter = serviceLocator<HomePageStudentPresenter>(),
         super();
 
   @override
   void initListeners() {}
 
-  // void getProfileInfo() async {
-  //   _presenter!.getStudentData(
-  //       observer: new UseCaseObserver(
-  //           _handleInitializationCompleted, _handleGetProfileInfoError,
-  //           onNextFunc: _handleProfileEntity));
-  // }
-
-  // void navigateToProfilePage() {
-  //   navigationService!.navigateTo(NavigationService.profilePage);
-  // }
-
-  // void handleContactSupportButtonClicked() {
-  //   _presenter!.getStudentData(
-  //       observer: new UseCaseObserver(() {}, (Exception error) {
-  //     print('Error ocurred while getting student Data:$error');
-  //   }, onNextFunc: (StudentEntity studentData) {
-  //     String studentId = studentData.studentId;
-  //     String studentName = studentData.name;
-  //     String instituteId = studentData.institutes[0].instituteId;
-  //     _presenter!.getDeviceInformation(new UseCaseObserver(() {}, (error) {
-  //       print('Error ocurred while getting device information:$error');
-  //     }, onNextFunc: (DeviceInformationEntity deviceInformation) async {
-  //       final Uri params = Uri(
-  //         scheme: 'mailto',
-  //         path: 'promexa-feedback@cerebranium.com',
-  //         query: 'subject=Problems faced by the Student while using the Promexa App&body=User Id: $studentId\nInstituteId: $instituteId\nStudent Name: $studentName\n' +
-  //             generateDeviceInformationTextForMail(deviceInformation) +
-  //             'We are sorry for the inconvenience faced by you. Please write your problems here in as much detail as possible.\n\n',
-  //       );
-  //       var url = params.toString();
-  //       try {
-  //         await launch(url);
-  //       } catch (error) {
-  //         ApplicationTracker.reportError(
-  //             'Error encountered while launching Uri for contact support: $url , Error : $error ');
-  //       }
-  //     }));
-  //   }));
-  // }
-
-  HomePageState? getCurrentState() {
-    return _stateMachine.getCurrentState();
+  void initializeHomeScreen() async {
+    _presenter!.getUserData(
+      observer: UseCaseObserver(() {}, (error) {
+        _stateMachine.onEvent(HomePageStudentErrorEvent(error));
+        refreshUI();
+      }, onNextFunc: (StudentUserEntity userData) {
+        _stateMachine.onEvent(HomePageStudentInitializedEvent(userData));
+        refreshUI();
+      }),
+    );
   }
 
-  // _handleInitializationCompleted() {
-  //   _stateMachine.onEvent(new HomePageInitializedEvent(_profile!.userName));
-  //   refreshUI();
-  // }
+  void navigateToProfilePage() {
+    // navigationService!.navigateTo(NavigationService.profilePage);
+  }
 
-  // _handleGetProfileInfoError(error) {
-  //   _stateMachine.onEvent(new HomePageErrorEvent(error));
-  //   print("Home Page error - " + error.toString());
-  //   refreshUI();
-  // }
+  void handlePageChange(StudentUserEntity studentData, int page) {
+    _stateMachine.onEvent(HomePageStudentTabClickEvent(studentData, page));
+    refreshUI();
+  }
 
-  // _handleProfileEntity(StudentEntity studentData) {
-  //   this._profile = new ProfileEntity(studentData.name);
-  // }
+  void handleContactSupportButtonClicked() async{
+    _presenter!.getUserData(
+        observer: UseCaseObserver(() {}, (error) {},
+            onNextFunc: (StudentUserEntity studentData) async{
+      String studentId = studentData.id;
+      String studentName = studentData.name;
+      final Uri params = Uri(
+        scheme: 'mailto',
+        path: 'tarang98@umd.edu',
+        query: 'subject=Problems faced by the Student while using SkillsBerg&body=User Id: $studentId\nStudent Name: $studentName\n\n' +
+            'We are sorry for the inconvenience faced by you.\nPlease write your problems here in as much detail as possible.\n\n',
+      );
+        try {
+          await launchUrl(params);
+        } catch (error) {
+          print(error);
+        }
+     
+    }));
+  }
+
+  HomePageStudentState? getCurrentState() {
+    return _stateMachine.getCurrentState();
+  }
 
   // handleBottomBarPageRoute(int _page) {
   //   _stateMachine.onEvent(new HomePageTabClickEvent(this._profile, _page));

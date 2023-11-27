@@ -46,7 +46,7 @@ Future<void> init() async {
 
   //home
   serviceLocator.registerFactory(
-      () => HomePagePresenter());
+      () => HomePageStudentPresenter(serviceLocator()));
   serviceLocator.registerFactory(() => GetUserDataUsecase(serviceLocator()));
   serviceLocator.registerLazySingleton<HomeRepository>(
       () => HomeRepositoryImpl(serviceLocator()));

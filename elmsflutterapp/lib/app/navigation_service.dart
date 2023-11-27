@@ -1,15 +1,21 @@
+import 'package:elmsflutterapp/app/auth/presentation/signin_view.dart';
+import 'package:elmsflutterapp/app/home/home_view.dart';
 import 'package:elmsflutterapp/app/splash_screen/presentation/splash_view.dart';
 import 'package:flutter/material.dart';
 
-
 class AppNavigationService extends NavigationService {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
-
     switch (settings.name) {
-
       case NavigationService.splashScreen:
         return MaterialPageRoute(builder: (_) => SplashPage());
-        
+
+      case NavigationService.signInRoute:
+        return MaterialPageRoute(builder: (_) => SignInPage());
+
+      case NavigationService.homepage:
+        return MaterialPageRoute(builder: (_) => HomePage());
+
+
       case '/':
         return null;
 
@@ -21,7 +27,6 @@ class AppNavigationService extends NavigationService {
   @override
   Future<void> navigateTo(String routeName,
       {bool shouldReplace = false, Object? arguments}) {
-
     if (shouldReplace) {
       return navigatorKey.currentState!
           .pushReplacementNamed(routeName, arguments: arguments);
@@ -56,7 +61,7 @@ abstract class NavigationService {
   static const String splashScreen = '/splash';
   static const String signInRoute = "/signin";
   static const String homepage = '/home';
-  
+
   Future<void> navigateTo(String routeName,
       {bool shouldReplace = false, Object? arguments});
 

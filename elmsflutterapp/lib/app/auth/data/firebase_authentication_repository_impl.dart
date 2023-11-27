@@ -36,7 +36,7 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
   }
 
   @override
-  Future<void> authenticateWithEmailAndPassword(
+  Future<String> authenticateWithEmailAndPassword(
       {required String email,
       required String password,
       required bool isUserAnInstructor}) async {
@@ -54,6 +54,8 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
           uid: FirebaseAuth.instance.currentUser!.uid,
           email: email,
           isUserAnInstructor: isUserAnInstructor);
+
+      return FirebaseAuth.instance.currentUser!.uid;
     } on FirebaseAuthException catch (error) {
       FirebaseAuthException firebaseAuthxception = error;
       String errorCode = firebaseAuthxception.code;

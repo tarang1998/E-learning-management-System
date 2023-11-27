@@ -1,7 +1,7 @@
 abstract class AuthenticationRepository {
   Future<bool> checkLoginStatus();
 
-  Future<void> authenticateWithEmailAndPassword(
+  Future<String> authenticateWithEmailAndPassword(
       {required String email, required String password, required bool isUserAnInstructor});
 
   Future<void> forgotPassword({required String emailId});

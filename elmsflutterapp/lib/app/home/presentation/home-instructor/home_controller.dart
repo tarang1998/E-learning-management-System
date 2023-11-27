@@ -1,4 +1,4 @@
-import 'package:elmsflutterapp/app/home/home_presentor.dart';
+import 'package:elmsflutterapp/app/home/presentation/home-student/home_presentor.dart';
 import 'package:elmsflutterapp/app/navigation_service.dart';
 import 'package:elmsflutterapp/injection_container.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';

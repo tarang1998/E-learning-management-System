@@ -1,3 +1,4 @@
+import 'package:elmsflutterapp/app/home/domain/entities/userEntity.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 import '../../../core/presentation/observer.dart';
@@ -33,8 +34,7 @@ class SplashController extends Controller {
     print("Checking if user is logged In");
     _presenter!.checkLoginStatus(
       UseCaseObserver(
-        () {
-        },
+        () {},
         _handleSplashError,
         onNextFunc: (isLoggedIn) {
           if (isLoggedIn == true) {
@@ -58,21 +58,22 @@ class SplashController extends Controller {
     );
   }
 
-  void renderHomepage() {
-    _navigationService!.navigateTo(
-      NavigationService.homepage,
-      shouldReplace: true,
-    );
-  }
 
   _handleSignInSuccess() {
-    _presenter!.fetchStudentDetails(
-       UseCaseObserver(
-        renderHomepage,
+    _presenter!.getUserData(
+      UseCaseObserver(
+        () {},
         _handleSplashError,
-        onNextFunc: (_) {},
+        onNextFunc: (UserEntity user) {
+          if (user.runtimeType == StudentUserEntity) {
+            _navigationService!.navigateTo(NavigationService.homepageStudent,
+                shouldReplace: true);
+          } else {
+            _navigationService!.navigateTo(NavigationService.homepageInstructor,
+                shouldReplace: true);
+          }
+        },
       ),
     );
   }
-
 }

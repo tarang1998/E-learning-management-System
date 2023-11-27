@@ -1,6 +1,6 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
-import '../../../../core/presentation/observer.dart';
+import '../../../../../../core/presentation/observer.dart';
 
 class HomePagePresenter extends Presenter {
   // final GetStudentDataUsecase? _getStudentDataUsecase;

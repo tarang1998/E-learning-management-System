@@ -14,7 +14,9 @@ class AuthenticateWithEmailAndPasswordUseCase
     final StreamController streamController = StreamController();
     try {
       await _repository.authenticateWithEmailAndPassword(
-          email: params!._email, password: params._password);
+          email: params!._email, 
+          password: params._password,
+          isUserAnInstructor: params.isUserAnInstructor!);
       print("Authentication successful");
       streamController.close();
     } catch (error) {

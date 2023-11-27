@@ -1,4 +1,4 @@
-import '../../../core/presentation/state_machine.dart';
+import '../../../../core/presentation/state_machine.dart';
 
 class SignInStateMachine extends StateMachine<SignInState?, SignInEvent> {
   SignInStateMachine() : super(new SignInInitState());

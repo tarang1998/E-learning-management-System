@@ -1,4 +1,4 @@
-import 'package:elmsflutterapp/app/auth/presentation/signin_view.dart';
+import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_view.dart';
 import 'package:elmsflutterapp/app/home/home_view.dart';
 import 'package:elmsflutterapp/app/splash_screen/presentation/splash_view.dart';
 import 'package:flutter/material.dart';

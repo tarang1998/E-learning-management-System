@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../../core/presentation/observer.dart';
-import '../../../injection_container.dart';
-import '../../navigation_service.dart';
+import '../../../../core/presentation/observer.dart';
+import '../../../../injection_container.dart';
+import '../../../navigation_service.dart';
 import 'signin_presenter.dart';
 import 'signin_state_machine.dart';
 

@@ -2,7 +2,7 @@ import 'package:elmsflutterapp/app/auth/data/firebase_authentication_repository_
 import 'package:elmsflutterapp/app/auth/domain/repository/authentication_repository.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/authenticate_with_email_password_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.dart';
-import 'package:elmsflutterapp/app/auth/presentation/signin_presenter.dart';
+import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_presenter.dart';
 import 'package:elmsflutterapp/app/navigation_service.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/check_login_status_usecase.dart';
 import 'package:elmsflutterapp/app/splash_screen/presentation/splash_presenter.dart';

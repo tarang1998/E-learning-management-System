@@ -41,14 +41,14 @@ class SplashViewState
 
   Widget _buildSplashScreen(SplashController controller) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      // Future.delayed(const Duration(seconds: 5),
-      //     () => {controller.checkIfUserIsLoggedIn()});
+      Future.delayed(const Duration(seconds: 1),
+          () => {controller.checkIfUserIsLoggedIn()});
     });
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 16, 4, 41),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: Image.asset(
-          'assets/animations/exodus.gif',
+          'assets/animations/splash.gif',
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
         ),

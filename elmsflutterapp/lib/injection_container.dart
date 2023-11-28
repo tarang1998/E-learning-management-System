@@ -4,6 +4,7 @@ import 'package:elmsflutterapp/app/auth/domain/usecases/authenticate_with_email_
 import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/signin_usecase.dart';
 import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_presenter.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/get_instructor_courses_usecase.dart';
 import 'package:elmsflutterapp/app/dashboard-student/presentation/dashboard_presenter.dart';
 import 'package:elmsflutterapp/app/home/data/repository/home_repository_impl.dart';
 import 'package:elmsflutterapp/app/home/data/wrapper/home_firebase_wrapper.dart';
@@ -11,6 +12,7 @@ import 'package:elmsflutterapp/app/home/domain/repository/home_repository.dart';
 import 'package:elmsflutterapp/app/home/domain/usecase/get_user_data_usecase.dart';
 import 'package:elmsflutterapp/app/home/presentation/home-instructor/home_presentor.dart';
 import 'package:elmsflutterapp/app/home/presentation/home-student/home_presentor.dart';
+import 'package:elmsflutterapp/app/instructor-courses/presentation/instructor-courses_presenter.dart';
 import 'package:elmsflutterapp/app/navigation_service.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/check_login_status_usecase.dart';
 import 'package:elmsflutterapp/app/course/data/respository/course_repository_impl.dart';
@@ -72,15 +74,22 @@ Future<void> init() async {
   //register-courses
   serviceLocator
       .registerFactory(() => RegisterCoursePresenter(serviceLocator()));
+  //instructor-courses
+  serviceLocator
+      .registerFactory(() => InstructorCoursesPresenter(serviceLocator()));
+
   //courses
+
+  serviceLocator
+      .registerFactory(() => GetInstructorCoursesUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => GetAllCoursesUsecase(serviceLocator()));
   serviceLocator.registerFactory(
       () => GetCoursesYetToBeRegistereCoursesdUsecase(serviceLocator()));
   serviceLocator.registerFactory(
       () => GetEnrolledCoursesForStudentUsecase(serviceLocator()));
 
-  serviceLocator.registerLazySingleton<CourseRepository>(
-      () => CourseRepositoryImpl());
+  serviceLocator
+      .registerLazySingleton<CourseRepository>(() => CourseRepositoryImpl());
 
   //==========================================================
 

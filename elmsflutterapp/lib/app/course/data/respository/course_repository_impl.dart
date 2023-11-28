@@ -35,9 +35,17 @@ class CourseRepositoryImpl implements CourseRepository {
         .collection('courses')
         .get();
 
-    List<CourseEntity> courses = [];
+    List<Future<DocumentSnapshot>> getCourseData = [];
 
     query.docs.forEach((element) {
+      getCourseData
+          .add(firebase.collection('courses').doc(element['id']).get());
+    });
+
+    List<DocumentSnapshot> docs = await Future.wait(getCourseData);
+    List<CourseEntity> courses = [];
+
+    docs.forEach((element) {
       courses.add(CourseEntity(
           id: element['id'],
           name: element['name'],
@@ -61,6 +69,36 @@ class CourseRepositoryImpl implements CourseRepository {
           name: element['name'],
           description: element['description'],
           courseCode: element['code'] ?? "X"));
+    });
+
+    return courses;
+  }
+
+  @override
+  Future<List<CourseEntity>> getInstructorCourses(
+      {required String instructorId}) async {
+    QuerySnapshot query = await firebase
+        .collection('instructors')
+        .doc(instructorId)
+        .collection('courses')
+        .get();
+
+    List<Future<DocumentSnapshot>> getCourseData = [];
+
+    query.docs.forEach((element) {
+      getCourseData
+          .add(firebase.collection('courses').doc(element['id']).get());
+    });
+
+    List<DocumentSnapshot> docs = await Future.wait(getCourseData);
+    List<CourseEntity> courses = [];
+
+    docs.forEach((element) {
+      courses.add(CourseEntity(
+          id: element['id'],
+          name: element['name'],
+          description: element['description'],
+          courseCode: element['code']));
     });
 
     return courses;

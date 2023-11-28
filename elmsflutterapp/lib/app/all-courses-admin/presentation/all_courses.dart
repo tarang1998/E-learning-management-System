@@ -1,5 +1,6 @@
 import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses_controller.dart';
 import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses_state_machine.dart';
+import 'package:elmsflutterapp/app/all-courses-admin/presentation/widget/add_subject_dialogue.dart';
 import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart'
@@ -10,13 +11,12 @@ class AllCoursesViewPage extends fa.View {
   State<StatefulWidget> createState() => AllCoursesViewPageState();
 }
 
-class AllCoursesViewPageState extends fa
-    .ResponsiveViewState<AllCoursesViewPage, AllCoursesController> {
+class AllCoursesViewPageState
+    extends fa.ResponsiveViewState<AllCoursesViewPage, AllCoursesController> {
   AllCoursesViewPageState() : super(AllCoursesController());
 
   @override
-  Widget get desktopView =>
-      fa.ControlledWidgetBuilder<AllCoursesController>(
+  Widget get desktopView => fa.ControlledWidgetBuilder<AllCoursesController>(
           builder: (context, controller) {
         final currentState = controller.getCurrentState();
         final currentStateType = controller.getCurrentState().runtimeType;
@@ -32,6 +32,9 @@ class AllCoursesViewPageState extends fa
             AllCoursesPageInitializedState initializedState =
                 currentState as AllCoursesPageInitializedState;
             return buildInitializedStateViewWeb(controller, initializedState);
+
+          case AllCoursesPageLoadingState:
+            return loadingState(controller);
 
           case AllCoursesPageErrorState:
             return _buildErrorStateView("Error fetching data");
@@ -59,6 +62,16 @@ class AllCoursesViewPageState extends fa
     );
   }
 
+  Widget loadingState(AllCoursesController controller) {
+    return Scaffold(
+      body: Container(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
   Widget _buildErrorStateView(String error) {
     return Scaffold(
         key: globalKey,
@@ -76,8 +89,8 @@ class AllCoursesViewPageState extends fa
         ));
   }
 
-  Widget buildInitializedStateViewWeb(AllCoursesController controller,
-      AllCoursesPageInitializedState state) {
+  Widget buildInitializedStateViewWeb(
+      AllCoursesController controller, AllCoursesPageInitializedState state) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           heroTag: 'refresh-subjects-tab',
@@ -107,14 +120,12 @@ class AllCoursesViewPageState extends fa
                             mainAxisSpacing: 30,
                             crossAxisSpacing: 30,
                             childAspectRatio: 1),
-                    itemCount: 
-                    state.courses.length+1,
+                    itemCount: state.courses.length + 1,
                     itemBuilder: (context, index) {
-                       if (index == 0 )
-                       return buildAddSubjectCard(
-                          context, controller); 
+                      if (index == 0)
+                        return buildAddSubjectCard(context, controller);
                       return _buildSubjectCard(
-                          controller, state.courses[index-1], index);
+                          controller, state.courses[index - 1], index);
                     }),
               ],
             ),
@@ -123,9 +134,7 @@ class AllCoursesViewPageState extends fa
       ),
     );
   }
-
 }
-
 
 Widget buildAddSubjectCard(
   BuildContext context,
@@ -133,36 +142,44 @@ Widget buildAddSubjectCard(
 ) {
   return GestureDetector(
     onTap: () {
-     
+      showDialog(
+          context: context,
+          builder: (_) => AddSubjectDialog(
+              onBack: controller.handleBackEvent,
+              onAdd: (subjectName, subjectCode, subjectDescription) {
+                controller.addCourse(
+                    courseName: subjectName,
+                    courseCode: subjectCode,
+                    courseDescription: subjectDescription);
+              }));
     },
     child: Card(
-        elevation: 6,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(color: Colors.blue, width: 2.5)),
-        child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.add,
-                size: 100,
-                color: Colors.blue,
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(color: Colors.blue, width: 2.5)),
+      child: Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.add,
+              size: 100,
+              color: Colors.blue,
+            ),
+            const SizedBox(height: 15),
+            Text(
+              "Add Course",
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 20,
               ),
-              const SizedBox(height: 15),
-              Text(
-                "Add Course",
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 20,
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
-  
+    ),
   );
 }
 

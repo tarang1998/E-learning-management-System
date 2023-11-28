@@ -103,4 +103,24 @@ class CourseRepositoryImpl implements CourseRepository {
 
     return courses;
   }
+
+  @override
+    Future<void> addCourse({
+    required String courseName,
+    required String courseCode,
+    required String courseDescription
+  }) async {
+
+    DocumentReference ref = firebase.collection("courses").doc();
+    String courseId = ref.id;
+
+    await firebase.collection('courses').doc(courseId).set({
+      "id": courseId,
+      "name": courseName,
+      "code": courseCode,
+      "description":courseDescription 
+    });
+
+  }
+
 }

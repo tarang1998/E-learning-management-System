@@ -77,11 +77,11 @@ class HomeViewState
         ),
         actions: [
           _buildNavTab(
-              title: "Dashboard",
+              title: "Your Courses",
               controller: controller,
               initializedState: initState,
               pageNo: 0,
-              icon: Icons.dashboard,
+              icon: Icons.book_sharp,
               onChange: () =>
                   {}),
         ],

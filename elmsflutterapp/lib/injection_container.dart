@@ -1,3 +1,4 @@
+import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses_presenter.dart';
 import 'package:elmsflutterapp/app/auth/data/firebase_authentication_repository_impl.dart';
 import 'package:elmsflutterapp/app/auth/domain/repository/authentication_repository.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/authenticate_with_email_password_usecase.dart';
@@ -74,12 +75,17 @@ Future<void> init() async {
   //register-courses
   serviceLocator
       .registerFactory(() => RegisterCoursePresenter(serviceLocator()));
+  //dashboard-student-registered-courses
+  serviceLocator.registerFactory(() => DashboardPresenter(serviceLocator()));
+
   //instructor-courses
   serviceLocator
       .registerFactory(() => InstructorCoursesPresenter(serviceLocator()));
+  //admin-all-courses
+  serviceLocator
+      .registerFactory(() => AllCoursesPresenter(serviceLocator()));
 
   //courses
-
   serviceLocator
       .registerFactory(() => GetInstructorCoursesUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => GetAllCoursesUsecase(serviceLocator()));
@@ -93,8 +99,6 @@ Future<void> init() async {
 
   //==========================================================
 
-  //dashboard-student
-  serviceLocator.registerFactory(() => DashboardPresenter(serviceLocator()));
 }
 
 Future<void> reset() async {

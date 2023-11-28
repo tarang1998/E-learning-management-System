@@ -190,7 +190,7 @@ Widget _buildSubjectCard(
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(5)),
+                  color: Colors.red, borderRadius: BorderRadius.circular(5)),
               alignment: Alignment.center,
               child: Text(
                 "Go To Course",

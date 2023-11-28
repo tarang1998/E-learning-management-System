@@ -1,22 +1,22 @@
+import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses_controller.dart';
+import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses_state_machine.dart';
 import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
-import 'package:elmsflutterapp/app/instructor-courses/presentation/instructor_courses_controller.dart';
-import 'package:elmsflutterapp/app/instructor-courses/presentation/instructor_courses_state_machine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart'
     as fa;
 
-class InstructorCoursesViewPage extends fa.View {
+class AllCoursesViewPage extends fa.View {
   @override
-  State<StatefulWidget> createState() => InstructorCoursesViewPageState();
+  State<StatefulWidget> createState() => AllCoursesViewPageState();
 }
 
-class InstructorCoursesViewPageState extends fa
-    .ResponsiveViewState<InstructorCoursesViewPage, InstructorCoursesController> {
-  InstructorCoursesViewPageState() : super(InstructorCoursesController());
+class AllCoursesViewPageState extends fa
+    .ResponsiveViewState<AllCoursesViewPage, AllCoursesController> {
+  AllCoursesViewPageState() : super(AllCoursesController());
 
   @override
   Widget get desktopView =>
-      fa.ControlledWidgetBuilder<InstructorCoursesController>(
+      fa.ControlledWidgetBuilder<AllCoursesController>(
           builder: (context, controller) {
         final currentState = controller.getCurrentState();
         final currentStateType = controller.getCurrentState().runtimeType;
@@ -25,15 +25,15 @@ class InstructorCoursesViewPageState extends fa
         );
 
         switch (currentStateType) {
-          case InstructorCoursesPageInitializationState:
+          case AllCoursesPageInitializationState:
             return buildInitializationStateViewWeb(controller);
 
-          case InstructorCoursesPageInitializedState:
-            InstructorCoursesPageInitializedState initializedState =
-                currentState as InstructorCoursesPageInitializedState;
+          case AllCoursesPageInitializedState:
+            AllCoursesPageInitializedState initializedState =
+                currentState as AllCoursesPageInitializedState;
             return buildInitializedStateViewWeb(controller, initializedState);
 
-          case InstructorCoursesPageErrorState:
+          case AllCoursesPageErrorState:
             return _buildErrorStateView("Error fetching data");
         }
         throw Exception("Unrecognized state $currentStateType encountered");
@@ -48,7 +48,7 @@ class InstructorCoursesViewPageState extends fa
   @override
   Widget get watchView => throw UnimplementedError();
 
-  Widget buildInitializationStateViewWeb(InstructorCoursesController controller) {
+  Widget buildInitializationStateViewWeb(AllCoursesController controller) {
     controller.initializeScreen();
     return Scaffold(
       body: Container(
@@ -76,8 +76,8 @@ class InstructorCoursesViewPageState extends fa
         ));
   }
 
-  Widget buildInitializedStateViewWeb(InstructorCoursesController controller,
-      InstructorCoursesPageInitializedState state) {
+  Widget buildInitializedStateViewWeb(AllCoursesController controller,
+      AllCoursesPageInitializedState state) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           heroTag: 'refresh-subjects-tab',
@@ -107,10 +107,14 @@ class InstructorCoursesViewPageState extends fa
                             mainAxisSpacing: 30,
                             crossAxisSpacing: 30,
                             childAspectRatio: 1),
-                    itemCount: state.courses.length,
+                    itemCount: 
+                    state.courses.length+1,
                     itemBuilder: (context, index) {
+                       if (index == 0 )
+                       return buildAddSubjectCard(
+                          context, controller); 
                       return _buildSubjectCard(
-                          controller, state.courses[index], index);
+                          controller, state.courses[index-1], index);
                     }),
               ],
             ),
@@ -119,6 +123,47 @@ class InstructorCoursesViewPageState extends fa
       ),
     );
   }
+
+}
+
+
+Widget buildAddSubjectCard(
+  BuildContext context,
+  AllCoursesController controller,
+) {
+  return GestureDetector(
+    onTap: () {
+     
+    },
+    child: Card(
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: const BorderSide(color: Colors.blue, width: 2.5)),
+        child: Container(
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.add,
+                size: 100,
+                color: Colors.blue,
+              ),
+              const SizedBox(height: 15),
+              Text(
+                "Add Course",
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 20,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+  
+  );
 }
 
 List<Color> get subjectCardColors => [
@@ -129,7 +174,7 @@ List<Color> get subjectCardColors => [
     ];
 
 Widget _buildSubjectCard(
-    InstructorCoursesController controller, CourseEntity course, int index) {
+    AllCoursesController controller, CourseEntity course, int index) {
   return GestureDetector(
     onTap: () => {},
     child: Card(

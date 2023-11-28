@@ -9,7 +9,7 @@ import 'home_state_machine.dart';
 class HomePageInstructorController extends Controller {
   final HomePageInstructorPresenter? _presenter;
   final HomePageInstructorStateMachine _stateMachine =
-       HomePageInstructorStateMachine();
+      HomePageInstructorStateMachine();
   NavigationService? navigationService = serviceLocator<NavigationService>();
 
   HomePageInstructorController()
@@ -28,6 +28,12 @@ class HomePageInstructorController extends Controller {
       _stateMachine.onEvent(HomePageInstructorInitializedEvent(user, 0));
       refreshUI();
     }));
+  }
+
+  void handlePageChange(InstructorUserEntity instructorUserEntity, int page) {
+    _stateMachine
+        .onEvent(HomePageInstructorTabClickEvent(instructorUserEntity, page));
+    refreshUI();
   }
 
   void navigateToProfilePage() {}

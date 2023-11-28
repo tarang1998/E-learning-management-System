@@ -44,6 +44,9 @@ dependencies:
   fluttertoast: ^8.0.2
   shared_preferences: ^2.0.6
   url_launcher: ^6.2.1
+  cloud_functions: ^4.5.5
+  http: ^0.13.4
+
 
 dev_dependencies:
   flutter_test:

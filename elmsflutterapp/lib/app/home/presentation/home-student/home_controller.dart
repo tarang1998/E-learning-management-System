@@ -66,8 +66,4 @@ class HomePageStudentController extends Controller {
     return _stateMachine.getCurrentState();
   }
 
-  // handleBottomBarPageRoute(int _page) {
-  //   _stateMachine.onEvent(new HomePageTabClickEvent(this._profile, _page));
-  //   refreshUI();
-  // }
 }

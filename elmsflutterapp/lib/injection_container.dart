@@ -11,6 +11,11 @@ import 'package:elmsflutterapp/app/home/domain/usecase/get_user_data_usecase.dar
 import 'package:elmsflutterapp/app/home/presentation/home-student/home_presentor.dart';
 import 'package:elmsflutterapp/app/navigation_service.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/check_login_status_usecase.dart';
+import 'package:elmsflutterapp/app/register-courses/data/respository/register_course_repository_impl.dart';
+import 'package:elmsflutterapp/app/register-courses/domain/repository/register_course_repository.dart';
+import 'package:elmsflutterapp/app/register-courses/domain/usecases/get_all_courses.dart';
+import 'package:elmsflutterapp/app/register-courses/domain/usecases/get_courses_yet_to_registered.dart';
+import 'package:elmsflutterapp/app/register-courses/presentation/register-course_presenter.dart';
 import 'package:elmsflutterapp/app/splash_screen/presentation/splash_presenter.dart';
 import 'package:get_it/get_it.dart';
 
@@ -38,20 +43,33 @@ Future<void> init() async {
   serviceLocator.registerFactory(() => ForgotPasswordUsecase(serviceLocator()));
   serviceLocator.registerFactory(
       () => AuthenticateWithEmailAndPasswordUseCase(serviceLocator()));
-  serviceLocator.registerFactory(() => SignInUsecase(serviceLocator(),serviceLocator()));
+  serviceLocator
+      .registerFactory(() => SignInUsecase(serviceLocator(), serviceLocator()));
   serviceLocator.registerLazySingleton<AuthenticationRepository>(
       () => FirebaseAuthenticationRepository());
 
   //==========================================================
 
   //home
-  serviceLocator.registerFactory(
-      () => HomePageStudentPresenter(serviceLocator()));
+  serviceLocator
+      .registerFactory(() => HomePageStudentPresenter(serviceLocator()));
   serviceLocator.registerFactory(() => GetUserDataUsecase(serviceLocator()));
   serviceLocator.registerLazySingleton<HomeRepository>(
       () => HomeRepositoryImpl(serviceLocator()));
   serviceLocator
       .registerLazySingleton<HomeFirebaseWrapper>(() => HomeFirebaseWrapper());
+
+  //==========================================================
+
+  //register-courses
+
+  serviceLocator
+      .registerFactory(() => RegisterCoursePresenter(serviceLocator()));
+  serviceLocator.registerFactory(() => GetAllCoursesUsecase(serviceLocator()));
+  serviceLocator.registerFactory(
+      () => GetCoursesYetToBeRegistereCoursesdUsecase(serviceLocator()));
+  serviceLocator.registerLazySingleton<RegisterCourseRepository>(
+      () => RegisterCourseRepositoryImpl());
 }
 
 Future<void> reset() async {

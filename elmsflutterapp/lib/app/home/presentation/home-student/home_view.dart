@@ -1,4 +1,4 @@
-import 'package:elmsflutterapp/app/dashboard/presentation/dashboardView.dart';
+import 'package:elmsflutterapp/app/dashboard/presentation/dashboard_view.dart';
 import 'package:elmsflutterapp/app/home/presentation/widgets/web_navigation_tab.dart';
 import 'package:elmsflutterapp/app/register-courses/presentation/register_course_view.dart';
 import 'package:elmsflutterapp/injection_container.dart';
@@ -64,7 +64,7 @@ class HomeViewState
       appBar: AppBar(
         toolbarHeight: 100.0,
         backgroundColor: Colors.white,
-        leadingWidth: 330,
+        leadingWidth: 450,
         leading: profileContainer(
           studentName: initState.studentData.name,
           controller: controller,
@@ -99,7 +99,7 @@ class HomeViewState
         child: IndexedStack(
           index: initState.page,
           children: <Widget>[
-            DashboardPage(),
+            DashboardViewPage(),
             RegisterCourseViewPage(),
           ],
         ),
@@ -135,8 +135,8 @@ class HomeViewState
                   child: Container(
                     margin:
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    width: 50,
                     height: 50,
+                    width: 50,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
@@ -160,7 +160,14 @@ class HomeViewState
                   onTap: () {
                     controller.navigateToProfilePage();
                   },
-                  child: Text('Hello' + ",  " + studentName + '\n' + "Welcome!",
+                  child: Text(
+                      'Hello' +
+                          ",  " +
+                          studentName +
+                          '\n' +
+                          "Welcome! " +
+                          
+                          "It's a good time to learn a language.",
                       style: TextStyle(
                           color: Colors.black54,
                           fontSize: 15,
@@ -226,107 +233,4 @@ class HomeViewState
         ));
   }
 
-  // Widget _examsContentBody() => ExamDashBoardPage();
-
-  // Widget _profileContainer(String name, HomePageController controller) {
-  //   return Container(
-  //     key: Key(Keys.homeProfileContainer),
-  //     height: 100,
-  //     decoration: AppTheme.profileContainer,
-  //     child: Row(
-  //       children: <Widget>[
-  //         GestureDetector(
-  //           onTap: () {
-  //             controller.navigateToProfilePage();
-  //           },
-  //           child: Container(
-  //             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-  //             width: 50,
-  //             height: 50,
-  //             decoration: AppTheme.boxDecorationCircularFrame,
-  //             child: Icon(
-  //               Icons.person_outline,
-  //               size: 35,
-  //               color: Color(0xFF747C80),
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: GestureDetector(
-  //               onTap: () {
-  //                 controller.navigateToProfilePage();
-  //               },
-  //               child: Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   Text(
-  //                     AppLocalizations.instance.translate("home.label.hi") +
-  //                         name,
-  //                     style: AppTheme.textStylePrimaryText,
-  //                     overflow: TextOverflow.fade,
-  //                     maxLines: 1,
-  //                     softWrap: false,
-  //                   ),
-  //                   Text(
-  //                     AppLocalizations.instance.translate("home.label.welcome"),
-  //                     style: AppTheme.textStylePrimaryText,
-  //                   )
-  //                 ],
-  //               )),
-  //         ),
-  //         GestureDetector(
-  //           onTap: () {
-  //             controller.handleContactSupportButtonClicked();
-  //           },
-  //           child: Container(
-  //             padding: EdgeInsets.only(right: 10),
-  //             child: Text(
-  //               AppLocalizations.instance
-  //                   .translate('profile.header.text.contact_us'),
-  //               style: AppTheme.textContactUs,
-  //             ),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget _bottomNavigationBar(
-  //     HomePageInitState initState, HomePageController controller) {
-  //   return BottomNavigationBar(
-  //     unselectedIconTheme: IconThemeData(color: Colors.grey, size: 28),
-  //     selectedIconTheme: IconThemeData(color: AppTheme.primaryColor, size: 30),
-  //     selectedLabelStyle: TextStyle(color: AppTheme.primaryColor),
-  //     unselectedLabelStyle: TextStyle(color: Colors.grey),
-  //     backgroundColor: Colors.white,
-  //     items: [
-  //       BottomNavigationBarItem(
-  //         icon: Icon(
-  //           Icons.import_contacts,
-  //         ),
-  //         label: AppLocalizations.instance.translate("home.label.exams"),
-  //       ),
-  //       BottomNavigationBarItem(
-  //         icon: Icon(
-  //           Icons.subject,
-  //           key: Key(Keys.homeScreenPerformanceTab),
-  //         ),
-  //         label: AppLocalizations.instance.translate("home.label.performance"),
-  //       ),
-  //     ],
-  //     currentIndex: initState.page,
-  //     onTap: (int _page) {
-  //       controller.handleBottomBarPageRoute(_page);
-  //     },
-  //   );
-  // }
-
-  // Widget _resultsPage() {
-  //   return ResultsMainPage(
-  //     shouldHideResults: FeatureFlagsConfig.instance!.features
-  //         .contains(FeatureFlags.HIDE_RESULTS),
-  //   );
-  // }
 }

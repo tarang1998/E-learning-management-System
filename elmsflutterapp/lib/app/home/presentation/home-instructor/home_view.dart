@@ -1,3 +1,4 @@
+import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses.dart';
 import 'package:elmsflutterapp/app/home/presentation/widgets/web_navigation_tab.dart';
 import 'package:elmsflutterapp/app/instructor-courses/presentation/instructor_courses_view.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,8 @@ class HomepageInstructor extends fa.View {
   State<StatefulWidget> createState() => HomeViewState();
 }
 
-class HomeViewState
-    extends fa.ResponsiveViewState<HomepageInstructor, HomePageInstructorController> {
+class HomeViewState extends fa
+    .ResponsiveViewState<HomepageInstructor, HomePageInstructorController> {
   HomeViewState() : super(new HomePageInstructorController());
 
   @override
@@ -83,8 +84,19 @@ class HomeViewState
               initializedState: initState,
               pageNo: 0,
               icon: Icons.book_sharp,
-              onChange: () =>
-                  {}),
+              onChange: () => {
+                controller.handlePageChange(initState.instructorData, 0)
+              }),
+          if (initState.instructorData.roles.contains("ADMIN"))
+            _buildNavTab(
+                title: "All Courses",
+                controller: controller,
+                initializedState: initState,
+                pageNo: 1,
+                icon: Icons.all_inbox,
+                onChange: () => {
+                  controller.handlePageChange(initState.instructorData, 1)
+                }),
         ],
       ),
       body: SafeArea(
@@ -92,6 +104,8 @@ class HomeViewState
           index: initState.page,
           children: <Widget>[
             InstructorCoursesViewPage(),
+            if (initState.instructorData.roles.contains("ADMIN"))
+              AllCoursesViewPage()
           ],
         ),
       ),
@@ -152,11 +166,7 @@ class HomeViewState
                     controller.navigateToProfilePage();
                   },
                   child: Text(
-                      'Hello' +
-                          ",  " +
-                          studentName +
-                          '\n' +
-                          "Welcome Back! " ,
+                      'Hello' + ",  " + studentName + '\n' + "Welcome Back! ",
                       style: TextStyle(
                           color: Colors.black54,
                           fontSize: 15,

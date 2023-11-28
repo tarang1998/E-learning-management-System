@@ -18,8 +18,14 @@ class HomeRepositoryImpl implements HomeRepository {
       }
       Map<String, dynamic> data =
           await firebaseWrapper.getInstructorData(instructorId: userId);
+
+      List<dynamic> rolesData = data["roles"];
+      List<String> roles = [];
+      rolesData.forEach((role){
+        roles.add(role as String);
+      });
       return InstructorUserEntity(
-          id: data["id"], email: data["email"], name: data["name"]);
+          id: data["id"], email: data["email"], name: data["name"],roles: roles);
     } else {
       if (studentUserEntity != null) {
         return studentUserEntity!;

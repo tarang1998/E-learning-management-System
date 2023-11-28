@@ -10,4 +10,10 @@ abstract class CourseRepository {
   Future<List<CourseEntity>> getAllCourses();
 
   Future<List<CourseEntity>> getInstructorCourses({required String instructorId});
+
+  Future<void> addCourse({
+    required String courseName,
+    required String courseCode,
+    required String courseDescription
+  });
 }

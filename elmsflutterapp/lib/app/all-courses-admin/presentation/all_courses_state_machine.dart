@@ -4,8 +4,7 @@ import '../../../../../core/presentation/state_machine.dart';
 
 class AllCoursesPageStateMachine
     extends StateMachine<AllCoursesPageState?, AllCoursesPageEvent> {
-  AllCoursesPageStateMachine()
-      : super(AllCoursesPageInitializationState());
+  AllCoursesPageStateMachine() : super(AllCoursesPageInitializationState());
 
   @override
   AllCoursesPageState? getStateOnEvent(AllCoursesPageEvent event) {
@@ -15,8 +14,8 @@ class AllCoursesPageStateMachine
       case AllCoursesPageInitializedEvent:
         AllCoursesPageInitializedEvent initializedEvent =
             event as AllCoursesPageInitializedEvent;
-        newState = AllCoursesPageInitializedState(
-            courses: initializedEvent.courses);
+        newState =
+            AllCoursesPageInitializedState(courses: initializedEvent.courses);
         break;
 
       case AllCoursesPageErrorEvent:
@@ -25,6 +24,10 @@ class AllCoursesPageStateMachine
 
       case AllCoursesPageRefreshEvent:
         newState = AllCoursesPageInitializationState();
+        break;
+
+      case AllCoursesPageLoadingEvent:
+        newState = AllCoursesPageLoadingState();
         break;
     }
     return newState;
@@ -35,7 +38,7 @@ abstract class AllCoursesPageEvent {}
 
 class AllCoursesPageLoadingEvent extends AllCoursesPageEvent {}
 
-class AllCoursesPageRefreshEvent extends AllCoursesPageEvent{}
+class AllCoursesPageRefreshEvent extends AllCoursesPageEvent {}
 
 class AllCoursesPageInitializedEvent extends AllCoursesPageEvent {
   List<CourseEntity> courses;
@@ -49,8 +52,9 @@ class AllCoursesPageErrorEvent extends AllCoursesPageEvent {}
 
 abstract class AllCoursesPageState {}
 
-class AllCoursesPageInitializationState
-    implements AllCoursesPageState {}
+class AllCoursesPageInitializationState implements AllCoursesPageState {}
+
+class AllCoursesPageLoadingState implements AllCoursesPageState {}
 
 class AllCoursesPageInitializedState implements AllCoursesPageState {
   List<CourseEntity> courses;

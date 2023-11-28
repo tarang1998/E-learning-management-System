@@ -85,7 +85,7 @@ class RegisterCourseViewPageState extends fa
           child: const Icon(
             Icons.refresh,
             size: 35,
-            color: Colors.white,
+            color: Colors.blue,
           ),
           onPressed: () {
             controller.refreshPage();
@@ -163,6 +163,21 @@ Widget _buildSubjectCard(
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.green, borderRadius: BorderRadius.circular(5)),
+              alignment: Alignment.center,
+              child: Text(
+                "Enroll to course",
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),

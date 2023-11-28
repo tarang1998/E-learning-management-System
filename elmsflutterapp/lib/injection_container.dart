@@ -4,20 +4,21 @@ import 'package:elmsflutterapp/app/auth/domain/usecases/authenticate_with_email_
 import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/signin_usecase.dart';
 import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_presenter.dart';
-import 'package:elmsflutterapp/app/dashboard/presentation/dashboard_presenter.dart';
+import 'package:elmsflutterapp/app/dashboard-student/presentation/dashboard_presenter.dart';
 import 'package:elmsflutterapp/app/home/data/repository/home_repository_impl.dart';
 import 'package:elmsflutterapp/app/home/data/wrapper/home_firebase_wrapper.dart';
 import 'package:elmsflutterapp/app/home/domain/repository/home_repository.dart';
 import 'package:elmsflutterapp/app/home/domain/usecase/get_user_data_usecase.dart';
+import 'package:elmsflutterapp/app/home/presentation/home-instructor/home_presentor.dart';
 import 'package:elmsflutterapp/app/home/presentation/home-student/home_presentor.dart';
 import 'package:elmsflutterapp/app/navigation_service.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/check_login_status_usecase.dart';
-import 'package:elmsflutterapp/app/register-courses/data/respository/register_course_repository_impl.dart';
-import 'package:elmsflutterapp/app/register-courses/domain/repository/register_course_repository.dart';
-import 'package:elmsflutterapp/app/register-courses/domain/usecases/get_all_courses.dart';
-import 'package:elmsflutterapp/app/register-courses/domain/usecases/get_courses_yet_to_registered.dart';
-import 'package:elmsflutterapp/app/register-courses/domain/usecases/get_enrolled_courses_for_student_usecase.dart';
-import 'package:elmsflutterapp/app/register-courses/presentation/register-course_presenter.dart';
+import 'package:elmsflutterapp/app/course/data/respository/course_repository_impl.dart';
+import 'package:elmsflutterapp/app/course/domain/repository/course_repository.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/get_all_courses.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/get_courses_yet_to_registered.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/get_enrolled_courses_for_student_usecase.dart';
+import 'package:elmsflutterapp/app/register-courses-student/presentation/register-course_presenter.dart';
 import 'package:elmsflutterapp/app/splash_screen/presentation/splash_presenter.dart';
 import 'package:get_it/get_it.dart';
 
@@ -52,9 +53,14 @@ Future<void> init() async {
 
   //==========================================================
 
-  //home
+  //home-student
   serviceLocator
       .registerFactory(() => HomePageStudentPresenter(serviceLocator()));
+  //home-instructor
+  serviceLocator
+      .registerFactory(() => HomePageInstructorPresenter(serviceLocator()));
+
+  //home
   serviceLocator.registerFactory(() => GetUserDataUsecase(serviceLocator()));
   serviceLocator.registerLazySingleton<HomeRepository>(
       () => HomeRepositoryImpl(serviceLocator()));
@@ -64,21 +70,21 @@ Future<void> init() async {
   //==========================================================
 
   //register-courses
-
   serviceLocator
       .registerFactory(() => RegisterCoursePresenter(serviceLocator()));
+  //courses
   serviceLocator.registerFactory(() => GetAllCoursesUsecase(serviceLocator()));
   serviceLocator.registerFactory(
       () => GetCoursesYetToBeRegistereCoursesdUsecase(serviceLocator()));
   serviceLocator.registerFactory(
       () => GetEnrolledCoursesForStudentUsecase(serviceLocator()));
 
-  serviceLocator.registerLazySingleton<RegisterCourseRepository>(
-      () => RegisterCourseRepositoryImpl());
+  serviceLocator.registerLazySingleton<CourseRepository>(
+      () => CourseRepositoryImpl());
 
   //==========================================================
 
-  //dashboard
+  //dashboard-student
   serviceLocator.registerFactory(() => DashboardPresenter(serviceLocator()));
 }
 
@@ -86,5 +92,5 @@ Future<void> reset() async {
   serviceLocator.resetLazySingleton<HomeRepository>();
   serviceLocator.resetLazySingleton<HomeFirebaseWrapper>();
   serviceLocator.resetLazySingleton<AuthenticationRepository>();
-  serviceLocator.resetLazySingleton<RegisterCourseRepository>();
+  serviceLocator.resetLazySingleton<CourseRepository>();
 }

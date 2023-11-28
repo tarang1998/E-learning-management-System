@@ -1,73 +1,78 @@
+import 'package:elmsflutterapp/app/home/domain/entities/userEntity.dart';
+
 import '../../../../../../core/presentation/state_machine.dart';
 
-class HomePageStateMachine extends StateMachine<HomePageState?, HomePageEvent> {
-  HomePageStateMachine() : super(new HomePageLoadingState());
+class HomePageInstructorStateMachine
+    extends StateMachine<HomePageInstructorState?, HomePageInstructorEvent> {
+  HomePageInstructorStateMachine()
+      : super(HomePageInstructorInitializationState());
 
   @override
-  HomePageState? getStateOnEvent(HomePageEvent event) {
+  HomePageInstructorState? getStateOnEvent(HomePageInstructorEvent event) {
     final eventType = event.runtimeType;
-    HomePageState? newState = getCurrentState();
+    HomePageInstructorState? newState = getCurrentState();
     switch (eventType) {
-      // case HomePageInitializedEvent:
-      //   HomePageInitializedEvent initEvent = event as HomePageInitializedEvent;
-      //   newState = new HomePageInitState(
-      //       new ProfileEntity(initEvent.userName), 0 //page
-      //       );
-      //   break;
+      case HomePageInstructorInitializedEvent:
+        HomePageInstructorInitializedEvent initEvent =
+            event as HomePageInstructorInitializedEvent;
+        newState = HomePageInstructorInitState(initEvent.instructorData, 0);
+        break;
 
-      // case HomePageTabClickEvent:
-      //   HomePageTabClickEvent tabClickEvent = event as HomePageTabClickEvent;
-      //   newState =
-      //       new HomePageInitState(tabClickEvent.profile, tabClickEvent.page);
-      //   break;
+      case HomePageInstructorTabClickEvent:
+        HomePageInstructorTabClickEvent tabClickEvent =
+            event as HomePageInstructorTabClickEvent;
+        newState = HomePageInstructorInitState(
+            tabClickEvent.instructorData, tabClickEvent.page);
+        break;
 
-      case HomePageErrorEvent:
-        HomePageErrorEvent errorEvent = event as HomePageErrorEvent;
-        newState = new HomePageErrorState(errorEvent.error.toString());
+      case HomePageInstructorErrorEvent:
+        HomePageInstructorErrorEvent errorEvent =
+            event as HomePageInstructorErrorEvent;
+        newState = HomePageInstructorErrorState(errorEvent.error.toString());
         break;
     }
     return newState;
   }
 }
 
-abstract class HomePageEvent {}
+abstract class HomePageInstructorEvent {}
 
-class HomePageClickedEvent extends HomePageEvent {}
-
-class HomePageErrorEvent extends HomePageEvent {
+class HomePageInstructorErrorEvent extends HomePageInstructorEvent {
   final Exception error;
 
-  HomePageErrorEvent(this.error);
+  HomePageInstructorErrorEvent(this.error);
 }
 
-class HomePageInitializedEvent extends HomePageEvent {
-  final String userName;
+class HomePageInstructorInitializedEvent extends HomePageInstructorEvent {
+  final InstructorUserEntity instructorData;
+  final int page;
 
-  HomePageInitializedEvent(
-    this.userName,
-  );
+  HomePageInstructorInitializedEvent(this.instructorData, this.page);
 }
 
-// class HomePageTabClickEvent extends HomePageEvent {
-//   ProfileEntity? profile;
-//   final int page;
+class HomePageInstructorTabClickEvent extends HomePageInstructorEvent {
+  final InstructorUserEntity instructorData;
+  final int page;
 
-//   HomePageTabClickEvent(this.profile, this.page);
-// }
+  HomePageInstructorTabClickEvent(this.instructorData, this.page);
+}
 
-abstract class HomePageState {}
+abstract class HomePageInstructorState {}
 
-// class HomePageInitState implements HomePageState {
-//   ProfileEntity? profile;
-//   final int page;
+class HomePageInstructorInitializationState
+    implements HomePageInstructorState {}
 
-//   HomePageInitState(this.profile, this.page);
-// }
+class HomePageInstructorInitState implements HomePageInstructorState {
+  InstructorUserEntity instructorData;
+  final int page;
 
-class HomePageLoadingState implements HomePageState {}
+  HomePageInstructorInitState(this.instructorData, this.page);
+}
 
-class HomePageErrorState implements HomePageState {
+class HomePageInstructorLoadingState implements HomePageInstructorState {}
+
+class HomePageInstructorErrorState implements HomePageInstructorState {
   final String errorMessage;
 
-  HomePageErrorState(this.errorMessage);
+  HomePageInstructorErrorState(this.errorMessage);
 }

@@ -1,6 +1,6 @@
-import 'package:elmsflutterapp/app/register-courses/domain/entity/courseEntity.dart';
-import 'package:elmsflutterapp/app/register-courses/presentation/register-course_presenter.dart';
-import 'package:elmsflutterapp/app/register-courses/presentation/register_course_state_machine.dart';
+import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
+import 'package:elmsflutterapp/app/register-courses-student/presentation/register-course_presenter.dart';
+import 'package:elmsflutterapp/app/register-courses-student/presentation/register_course_state_machine.dart';
 import 'package:elmsflutterapp/core/presentation/observer.dart';
 import 'package:elmsflutterapp/injection_container.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';

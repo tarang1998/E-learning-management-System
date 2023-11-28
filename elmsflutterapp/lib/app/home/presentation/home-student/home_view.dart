@@ -1,6 +1,6 @@
-import 'package:elmsflutterapp/app/dashboard/presentation/dashboard_view.dart';
+import 'package:elmsflutterapp/app/dashboard-student/presentation/dashboard_view.dart';
 import 'package:elmsflutterapp/app/home/presentation/widgets/web_navigation_tab.dart';
-import 'package:elmsflutterapp/app/register-courses/presentation/register_course_view.dart';
+import 'package:elmsflutterapp/app/register-courses-student/presentation/register_course_view.dart';
 import 'package:elmsflutterapp/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart'

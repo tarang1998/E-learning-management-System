@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elmsflutterapp/app/course/domain/repository/course_repository.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:elmsflutterapp/app/register-courses/domain/entity/courseEntity.dart';
-import 'package:elmsflutterapp/app/register-courses/domain/repository/register_course_repository.dart';
+import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
 
-class RegisterCourseRepositoryImpl implements RegisterCourseRepository {
+class CourseRepositoryImpl implements CourseRepository {
   final firebase = FirebaseFirestore.instance;
 
   @override

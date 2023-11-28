@@ -1,4 +1,5 @@
 import 'package:elmsflutterapp/app/home/presentation/widgets/web_navigation_tab.dart';
+import 'package:elmsflutterapp/app/instructor-courses/presentation/instructor_courses_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart'
     as fa;
@@ -90,7 +91,7 @@ class HomeViewState
         child: IndexedStack(
           index: initState.page,
           children: <Widget>[
-            Text("Your Courses"),
+            InstructorCoursesViewPage(),
           ],
         ),
       ),

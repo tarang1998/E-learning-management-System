@@ -8,4 +8,6 @@ abstract class CourseRepository {
       {required String studentId});
 
   Future<List<CourseEntity>> getAllCourses();
+
+  Future<List<CourseEntity>> getInstructorCourses({required String instructorId});
 }

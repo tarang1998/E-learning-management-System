@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:elmsflutterapp/app/register-courses/domain/entity/courseEntity.dart';
-import 'package:elmsflutterapp/app/register-courses/domain/repository/register_course_repository.dart';
+import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
+import 'package:elmsflutterapp/app/course/domain/repository/course_repository.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 class GetCoursesYetToBeRegistereCoursesdUsecase extends CompletableUseCase<GetCoursesYetToBeRegisteredUsecaseParams> {
-  RegisterCourseRepository _repository;
+  CourseRepository _repository;
   GetCoursesYetToBeRegistereCoursesdUsecase(this._repository);
 
   @override

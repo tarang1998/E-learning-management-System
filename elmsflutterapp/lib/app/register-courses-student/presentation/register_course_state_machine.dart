@@ -1,4 +1,4 @@
-import 'package:elmsflutterapp/app/register-courses/domain/entity/courseEntity.dart';
+import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
 
 import '../../../../../core/presentation/state_machine.dart';
 

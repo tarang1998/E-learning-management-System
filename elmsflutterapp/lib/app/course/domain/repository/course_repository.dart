@@ -1,6 +1,6 @@
-import 'package:elmsflutterapp/app/register-courses/domain/entity/courseEntity.dart';
+import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
 
-abstract class RegisterCourseRepository {
+abstract class CourseRepository {
   Future<List<CourseEntity>> getCoursesYetToBeRegistered(
       {required String studentId});
 

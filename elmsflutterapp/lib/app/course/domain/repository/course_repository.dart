@@ -16,4 +16,7 @@ abstract class CourseRepository {
     required String courseCode,
     required String courseDescription
   });
+
+
+  Future<CourseEntity> getCourseInfo({required String courseId});
 }

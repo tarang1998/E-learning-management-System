@@ -6,7 +6,9 @@ import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.
 import 'package:elmsflutterapp/app/auth/domain/usecases/signin_usecase.dart';
 import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_presenter.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/add_course_usecase.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/getCourseInfoUsecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/get_instructor_courses_usecase.dart';
+import 'package:elmsflutterapp/app/course_description/presentation/course_description_presenter.dart';
 import 'package:elmsflutterapp/app/dashboard-student/presentation/dashboard_presenter.dart';
 import 'package:elmsflutterapp/app/home/data/repository/home_repository_impl.dart';
 import 'package:elmsflutterapp/app/home/data/wrapper/home_firebase_wrapper.dart';
@@ -83,10 +85,15 @@ Future<void> init() async {
   serviceLocator
       .registerFactory(() => InstructorCoursesPresenter(serviceLocator()));
   //admin-all-courses
-  serviceLocator.registerFactory(() => AllCoursesPresenter(serviceLocator(),serviceLocator()));
+  serviceLocator.registerFactory(
+      () => AllCoursesPresenter(serviceLocator(), serviceLocator()));
+  //course-description
+  serviceLocator.registerFactory(
+      () => CourseDescriptionMainPagePresenter(serviceLocator()));
 
   //courses
 
+  serviceLocator.registerFactory(() => GetCourseInfoUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => AddCourseUsecase(serviceLocator()));
   serviceLocator
       .registerFactory(() => GetInstructorCoursesUsecase(serviceLocator()));

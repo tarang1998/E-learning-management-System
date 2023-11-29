@@ -10,6 +10,18 @@ class CourseRepositoryImpl implements CourseRepository {
   final firebase = FirebaseFirestore.instance;
 
   @override
+  Future<CourseEntity> getCourseInfo({required String courseId}) async {
+    DocumentSnapshot courseDoc =
+        await firebase.collection('courses').doc(courseId).get();
+
+    return CourseEntity(
+        id: courseDoc["id"],
+        name: courseDoc["name"],
+        description: courseDoc["description"],
+        courseCode: courseDoc["code"]);
+  }
+
+  @override
   Future<List<CourseEntity>> getAllCourses() async {
     QuerySnapshot query = await firebase.collection('courses').get();
 
@@ -105,12 +117,10 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-    Future<void> addCourse({
-    required String courseName,
-    required String courseCode,
-    required String courseDescription
-  }) async {
-
+  Future<void> addCourse(
+      {required String courseName,
+      required String courseCode,
+      required String courseDescription}) async {
     DocumentReference ref = firebase.collection("courses").doc();
     String courseId = ref.id;
 
@@ -118,9 +128,7 @@ class CourseRepositoryImpl implements CourseRepository {
       "id": courseId,
       "name": courseName,
       "code": courseCode,
-      "description":courseDescription 
+      "description": courseDescription
     });
-
   }
-
 }

@@ -1,16 +1,16 @@
+import 'package:elmsflutterapp/app/course_description/presentation/course_description_controller.dart';
+import 'package:elmsflutterapp/utils/sizeConfig.dart';
 import 'package:flutter/material.dart';
 
-
 class DeleteCourseDialog extends StatelessWidget {
-  final bool isWeb;
-  final String subjectName, subjectId;
-  final SubjectDetailsMainPageController controller;
-  const DeleteSubjectDialog({
+  final String courseName;
+  final String courseId;
+  final CourseDescriptionMainPageController controller;
+  const DeleteCourseDialog({
     Key? key,
     required this.controller,
-    required this.subjectName,
-    required this.subjectId,
-    this.isWeb = false,
+    required this.courseId,
+    required this.courseName,
   }) : super(key: key);
 
   @override
@@ -20,27 +20,32 @@ class DeleteCourseDialog extends StatelessWidget {
       body: Center(
         child: Card(
           child: Container(
-            width: isWeb
-                ? getScreenWidth(context) * .3
-                : getScreenWidth(context) * .8,
+            width: getScreenWidth(context) * .3,
             decoration: const BoxDecoration(),
-            padding: AppTheme.margin20_10,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  AppLocalizations.instance.translate('confirm.text'),
-                  style: AppTheme.alertHeading,
+                  "Confirm",
+                  style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 25,
+                      fontFamily: "Ubuntu"),
                 ),
                 const SizedBox(height: 20),
                 RichText(
                   text: TextSpan(
-                    text: AppLocalizations.instance
-                        .translate('delete.subject.msg'),
-                    style: AppTheme.textStyleNormal,
+                    text: "Are you sure you to delete this subject ",
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 18,
+                        fontFamily: "Ubuntu",
+                        fontWeight: FontWeight.w600),
                     children: [
                       TextSpan(
-                        text: ' "$subjectName" ',
+                        text: ' "$courseName" ',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const TextSpan(text: '?'),
@@ -52,25 +57,29 @@ class DeleteCourseDialog extends StatelessWidget {
                   children: [
                     Expanded(
                       child: TextButton(
-                        child: Text(
-                          AppLocalizations.instance.translate('cancel.text'),
-                          style: AppTheme.pageButtonText
-                              .copyWith(color: AppTheme.primaryColor),
-                        ),
+                        child: Text("Cancel",
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w200,
+                                color: Colors.blue,
+                                fontFamily: 'Ubuntu')),
                         onPressed: controller.handleBackPressed,
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: AppTheme.colorHotPinkAccent),
+                        style: ElevatedButton.styleFrom(primary: Colors.red),
                         child: Text(
-                          AppLocalizations.instance.translate('confirm.text'),
-                          style: AppTheme.pageButtonText,
+                          "Confirm",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w200,
+                              color: Colors.white,
+                              fontFamily: 'Ubuntu'),
                         ),
-                        onPressed: () => controller.handleSubjectDelete(
-                            subjectId: subjectId),
+                        onPressed: () => {
+                        }
                       ),
                     )
                   ],

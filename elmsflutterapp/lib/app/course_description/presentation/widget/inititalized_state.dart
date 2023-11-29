@@ -1,5 +1,6 @@
 import 'package:elmsflutterapp/app/course_description/presentation/course_description_controller.dart';
 import 'package:elmsflutterapp/app/course_description/presentation/course_description_state_machine.dart';
+import 'package:elmsflutterapp/app/course_description/presentation/widget/delete_course_dialog.dart';
 import 'package:elmsflutterapp/utils/sizeConfig.dart';
 import 'package:flutter/material.dart';
 
@@ -184,14 +185,13 @@ class _CourseDescriptionScreenWebState extends State<CourseDescriptionScreenWeb>
         ),
         _buildDeleteSubjectCard(
           onTap: () => showDialog(
-              context: context, builder: (_) => Text("deleye subject")
+              context: context, builder: (_) => 
 
-              // DeleteSubjectDialog(
-              //   isWeb: true,
-              //   controller: controller,
-              //   subjectName: initializedState.subjectName,
-              //   subjectId: initializedState.subjectId,
-              // ),
+              DeleteCourseDialog(
+                controller: controller,
+                courseName: initializedState.course.name,
+                courseId: initializedState.course.id,
+              ),
               ),
         )
       ],

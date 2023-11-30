@@ -9,4 +9,6 @@ abstract class AuthenticationRepository {
   Future<void> logout();
 
   Future<void> resetPassword();
+
+  Future<void> registerStudentUser({required String userName, required String userEmail, required String password});
 }

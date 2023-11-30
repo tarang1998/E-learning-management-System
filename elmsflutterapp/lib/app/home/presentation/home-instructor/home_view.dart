@@ -1,47 +1,55 @@
+// Importing necessary packages and classes
 import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses.dart';
 import 'package:elmsflutterapp/app/home/presentation/widgets/web_navigation_tab.dart';
 import 'package:elmsflutterapp/app/instructor-courses/presentation/instructor_courses_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart'
-    as fa;
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart' as fa;
+
+// Importing the home controller and state machine
 import 'home_controller.dart';
 import 'home_state_machine.dart';
 
+// View class for the instructor's home page
 class HomepageInstructor extends fa.View {
   @override
   State<StatefulWidget> createState() => HomeViewState();
 }
 
-class HomeViewState extends fa
-    .ResponsiveViewState<HomepageInstructor, HomePageInstructorController> {
+// State class for the instructor's home page view
+class HomeViewState extends fa.ResponsiveViewState<HomepageInstructor, HomePageInstructorController> {
   HomeViewState() : super(new HomePageInstructorController());
 
   @override
   void dispose() {
-    // Hive.close();
     super.dispose();
   }
 
+  // Method to build the desktop view of the home page
   @override
   Widget get desktopView => mobileView;
 
+  // Method to build the mobile view of the home page
   @override
-  Widget get mobileView =>
-      fa.ControlledWidgetBuilder<HomePageInstructorController>(
+  Widget get mobileView => fa.ControlledWidgetBuilder<HomePageInstructorController>(
         builder: (context, controller) {
+          // Getting the current state and type of the state
           final currentState = controller.getCurrentState();
           final currentStateType = controller.getCurrentState().runtimeType;
           print("buildMobileView called with state $currentStateType");
 
+          // Switching based on the type of the current state
           switch (currentStateType) {
+            // Handling the initialization state of the home page
             case HomePageInstructorInitializationState:
               return _buildLoadingStateView(controller);
 
+            // Handling the initialized state of the home page
             case HomePageInstructorInitState:
               HomePageInstructorInitState homePageInitState =
                   currentState as HomePageInstructorInitState;
               return _buildInitialStateView(homePageInitState, controller);
 
+            // Handling the error state of the home page
             case HomePageInstructorErrorState:
               HomePageInstructorErrorState errorState =
                   currentState as HomePageInstructorErrorState;
@@ -57,6 +65,7 @@ class HomeViewState extends fa
   @override
   Widget get watchView => throw UnimplementedError();
 
+  // Method to build the loading state view of the home page
   Widget _buildLoadingStateView(HomePageInstructorController controller) {
     controller.initializePage();
     return const Scaffold(
@@ -66,8 +75,8 @@ class HomeViewState extends fa
     );
   }
 
-  Widget _buildInitialStateView(HomePageInstructorInitState initState,
-      HomePageInstructorController controller) {
+  // Method to build the initialized state view of the home page
+  Widget _buildInitialStateView(HomePageInstructorInitState initState, HomePageInstructorController controller) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100.0,
@@ -112,6 +121,7 @@ class HomeViewState extends fa
     );
   }
 
+  // Method to build the profile container widget
   Widget profileContainer({
     required HomePageInstructorController controller,
     required String studentName,
@@ -161,7 +171,7 @@ class HomeViewState extends fa
               ),
               MouseRegion(
                 cursor: SystemMouseCursors.click,
-                child: GestureDetector(
+                                child: GestureDetector(
                   onTap: () {
                     controller.navigateToProfilePage();
                   },
@@ -180,6 +190,7 @@ class HomeViewState extends fa
     );
   }
 
+  // Method to build the navigation tab widget
   Widget _buildNavTab({
     required HomePageInstructorController controller,
     required HomePageInstructorInitState initializedState,
@@ -206,6 +217,7 @@ class HomeViewState extends fa
     );
   }
 
+  // Method to build the error state view of the home page
   Widget _buildErrorStateView(String error) {
     return Scaffold(
         key: globalKey,
@@ -221,3 +233,4 @@ class HomeViewState extends fa
         ));
   }
 }
+

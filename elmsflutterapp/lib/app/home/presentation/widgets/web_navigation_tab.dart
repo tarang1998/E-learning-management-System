@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 
+// Custom widget representing a navigation tab in a web application.
 class WebNavigationTabs extends StatelessWidget {
+  // Indicates whether the tab is currently selected.
   final bool condition;
+
+  // The title of the navigation tab.
   final String? title;
+
+  // The icon associated with the navigation tab.
   final IconData icon;
 
+  // Constructor for the WebNavigationTabs widget.
   const WebNavigationTabs({
     required this.condition,
     required this.title,
     required this.icon,
   });
 
+  // Build method for the widget, defining its appearance and behavior.
   @override
   Widget build(BuildContext context) {
     return Container(
+      // Decorate the container based on the selected condition.
       decoration: condition
           ? BoxDecoration(
               color: Colors.blue,
@@ -41,11 +50,13 @@ class WebNavigationTabs extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
+            // Display the icon associated with the navigation tab.
             Icon(
               icon,
               color: condition ? Colors.white : Colors.blueGrey,
             ),
             const SizedBox(width: 5),
+            // Display the title of the navigation tab.
             Text(title!,
                 style: condition
                     ? TextStyle(

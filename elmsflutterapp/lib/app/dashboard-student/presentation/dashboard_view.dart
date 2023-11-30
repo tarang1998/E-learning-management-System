@@ -1,28 +1,35 @@
+// Importing necessary packages and classes
 import 'package:elmsflutterapp/app/dashboard-student/presentation/dashboard_controller.dart';
 import 'package:elmsflutterapp/app/dashboard-student/presentation/dashboard_state_machine.dart';
 import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart'
-    as fa;
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart' as fa;
 
+// Class definition for the DashboardViewPage extending fa.View
 class DashboardViewPage extends fa.View {
   @override
   State<StatefulWidget> createState() => DashboardViewPageState();
 }
 
-class DashboardViewPageState
-    extends fa.ResponsiveViewState<DashboardViewPage, DashboardController> {
+// Class definition for the DashboardViewPageState extending fa.ResponsiveViewState
+class DashboardViewPageState extends fa.ResponsiveViewState<DashboardViewPage, DashboardController> {
+  // Constructor initializing the state with the DashboardController
   DashboardViewPageState() : super(DashboardController());
 
+  // Override to provide the desktop view
   @override
   Widget get desktopView => fa.ControlledWidgetBuilder<DashboardController>(
           builder: (context, controller) {
+        // Retrieving the current state and its type
         final currentState = controller.getCurrentState();
         final currentStateType = controller.getCurrentState().runtimeType;
+
+        // Logging the current state type
         print(
           "buildDesktopView called with state $currentStateType",
         );
 
+        // Switching based on the state type to build the appropriate view
         switch (currentStateType) {
           case DashboardPageInitializationState:
             return buildInitializationStateViewWeb(controller);
@@ -35,19 +42,26 @@ class DashboardViewPageState
           case DashboardPageErrorState:
             return _buildErrorStateView("Error fetching data");
         }
+        
+        // Throwing an exception for unrecognized state type
         throw Exception("Unrecognized state $currentStateType encountered");
       });
 
+  // Override to provide the mobile view
   @override
   Widget get mobileView => desktopView;
 
+  // Override to provide the tablet view
   @override
   Widget get tabletView => mobileView;
 
+  // Override to provide the watch view (not implemented)
   @override
   Widget get watchView => throw UnimplementedError();
 
+  // Method to build the view for the initialization state on web
   Widget buildInitializationStateViewWeb(DashboardController controller) {
+    // Triggering the initialization of the screen
     controller.initializeScreen();
     return Scaffold(
       body: Container(
@@ -58,6 +72,7 @@ class DashboardViewPageState
     );
   }
 
+  // Method to build the error state view with a given error message
   Widget _buildErrorStateView(String error) {
     return Scaffold(
         key: globalKey,
@@ -75,6 +90,7 @@ class DashboardViewPageState
         ));
   }
 
+  // Method to build the view for the initialized state on web
   Widget buildInitializedStateViewWeb(
       DashboardController controller, DashboardPageInitializedState state) {
     return Scaffold(
@@ -127,7 +143,7 @@ class DashboardViewPageState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "You havent registered for any courses yet!",
+                          "You haven't registered for any courses yet!",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -141,6 +157,7 @@ class DashboardViewPageState
   }
 }
 
+// List of colors for the subject card
 List<Color> get subjectCardColors => [
       Colors.black87.withOpacity(0.7),
       Colors.blue.withOpacity(0.7),
@@ -148,6 +165,7 @@ List<Color> get subjectCardColors => [
       Colors.amber.withOpacity(0.7),
     ];
 
+// Method to build the subject card for a course
 Widget _buildSubjectCard(
     DashboardController controller, CourseEntity course, int index) {
   return GestureDetector(

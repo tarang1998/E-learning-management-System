@@ -3,23 +3,24 @@ import 'package:elmsflutterapp/app/home/presentation/widgets/web_navigation_tab.
 import 'package:elmsflutterapp/app/register-courses-student/presentation/register_course_view.dart';
 import 'package:elmsflutterapp/injection_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart'
-    as fa;
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart' as fa;
 import 'home_controller.dart';
 import 'home_state_machine.dart';
 
+// Custom Flutter Clean Architecture view for the student's home page.
 class HomePageStudent extends fa.View {
   @override
   State<StatefulWidget> createState() => HomeViewState();
 }
 
+// State class for the student's home page view.
 class HomeViewState
     extends fa.ResponsiveViewState<HomePageStudent, HomePageStudentController> {
   HomeViewState() : super(HomePageStudentController());
 
   @override
   void dispose() {
-    // Hive.close();
+    // Dispose any resources when the view is disposed.
     super.dispose();
   }
 
@@ -30,24 +31,31 @@ class HomeViewState
   Widget get mobileView =>
       fa.ControlledWidgetBuilder<HomePageStudentController>(
         builder: (context, controller) {
+          // Get the current state and its type.
           final currentState = controller.getCurrentState();
           final currentStateType = controller.getCurrentState().runtimeType;
           print("buildMobileView called with state $currentStateType");
 
+          // Build the appropriate UI based on the current state.
           switch (currentStateType) {
+            // Show loading state while initializing.
             case HomePageStudentLoadingState:
               return _buildLoadingStateView(controller);
 
+            // Show the main UI with initialized state.
             case HomePageStudentInitState:
               HomePageStudentInitState homePageInitState =
                   currentState as HomePageStudentInitState;
               return _buildInitialStateView(homePageInitState, controller);
 
+            // Show error UI when an error occurs.
             case HomePageStudentErrorState:
               HomePageStudentErrorState errorState =
                   currentState as HomePageStudentErrorState;
               return _buildErrorStateView(errorState.errorMessage);
           }
+
+          // Throw an exception for unrecognized states.
           throw Exception("Unrecognized state $currentStateType encountered");
         },
       );
@@ -58,6 +66,7 @@ class HomeViewState
   @override
   Widget get watchView => throw UnimplementedError();
 
+  // Build the main UI for the student's home page with initialized state.
   Widget _buildInitialStateView(HomePageStudentInitState initState,
       HomePageStudentController controller) {
     return Scaffold(
@@ -70,6 +79,7 @@ class HomeViewState
           controller: controller,
         ),
         actions: [
+          // Build navigation tabs for different sections.
           _buildNavTab(
               title: "Dashboard",
               controller: controller,
@@ -107,6 +117,7 @@ class HomeViewState
     );
   }
 
+  // Build the profile container widget.
   Widget profileContainer({
     required HomePageStudentController controller,
     required String studentName,
@@ -126,6 +137,7 @@ class HomeViewState
           ),
           Row(
             children: <Widget>[
+              // Container for the user's profile image.
               MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
@@ -154,6 +166,7 @@ class HomeViewState
                   ),
                 ),
               ),
+              // Text widget displaying a welcome message.
               MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
@@ -166,7 +179,6 @@ class HomeViewState
                           studentName +
                           '\n' +
                           "Welcome! " +
-                          
                           "It's a good time to learn a language.",
                       style: TextStyle(
                           color: Colors.black54,
@@ -181,6 +193,7 @@ class HomeViewState
     );
   }
 
+  // Build the navigation tab widget.
   Widget _buildNavTab({
     required HomePageStudentController controller,
     required HomePageStudentInitState initializedState,
@@ -207,6 +220,7 @@ class HomeViewState
     );
   }
 
+  // Build the loading state UI.
   Widget _buildLoadingStateView(HomePageStudentController controller) {
     controller.initializeHomeScreen();
     return const Scaffold(
@@ -216,6 +230,7 @@ class HomeViewState
     );
   }
 
+  // Build the error state UI.
   Widget _buildErrorStateView(String error) {
     return Scaffold(
         key: globalKey,
@@ -232,5 +247,4 @@ class HomeViewState
           ),
         ));
   }
-
 }

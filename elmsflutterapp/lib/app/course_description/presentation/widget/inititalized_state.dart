@@ -95,7 +95,27 @@ class _CourseDescriptionScreenWebState extends State<CourseDescriptionScreenWeb>
                       params: QuestionBankPageParams(
                           shouldAddEditQuestions: true,
                           courseId: widget.initializedState.course.id)),
-                  Text("Quiz"),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Quiz",
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.w700)),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text("Coming Soon",
+                              style: TextStyle(
+                                color: Colors.red,
+                                  fontSize: 16, fontWeight: FontWeight.w700)),
+                        ],
+                      ),
+                    ),
+                  ),
                   Text("Resources"),
                 ],
               ),
@@ -134,8 +154,7 @@ class _CourseDescriptionScreenWebState extends State<CourseDescriptionScreenWeb>
                     fontSize: 34,
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
-                    fontFamily: "Ubuntu"
-                    ),
+                    fontFamily: "Ubuntu"),
               ),
             ),
           ],

@@ -24,10 +24,12 @@ class ShowImageOverlay extends StatelessWidget {
             builder: (context) {
               return buildEnlargedImage(
                 context: context,
-                image: CachedNetworkImage(
-                  imageUrl: imagepath!,
-                  width: double.infinity,
-                ),
+                image: Image.network(imagepath!)
+                
+                // CachedNetworkImage(
+                //   imageUrl: imagepath!,
+                //   width: double.infinity,
+                // ),
               );
             });
       },
@@ -37,18 +39,24 @@ class ShowImageOverlay extends StatelessWidget {
           height: heightOfImage,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(6))),
-          child: CachedNetworkImage(
-            imageUrl: imagepath!,
-            fit: boxFit ?? BoxFit.contain,
-            placeholder: (_, msg) => Container(
-              height: heightOfImage,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: const BorderRadius.all(Radius.circular(6)),
-              ),
-              child: const Center(child: Text('Loading Image...')),
-            ),
+          child: Image.network(imagepath!
           ),
+
+          
+          // CachedNetworkImage(
+          //   imageUrl: imagepath!,
+          //   fit: boxFit ?? BoxFit.contain,
+          //   placeholder: (_, msg) => Container(
+          //     height: heightOfImage,
+          //     decoration: BoxDecoration(
+          //       color: Colors.grey.shade300,
+          //       borderRadius: const BorderRadius.all(Radius.circular(6)),
+          //     ),
+          //     child: const Center(child: Text('Loading Image...')),
+          //   ),
+          // ),
+
+
         ),
       ),
     );

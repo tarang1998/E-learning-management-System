@@ -62,6 +62,7 @@ class RegistrationPageController extends Controller {
             _stateMachine.onEvent(RegistrationPageErrorEvent());
             refreshUI();
           }
+          
         }),
         password: passwordText.text,
         userEmail: studentEmail.text,

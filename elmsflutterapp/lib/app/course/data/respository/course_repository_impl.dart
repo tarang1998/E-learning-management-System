@@ -150,10 +150,13 @@ class CourseRepositoryImpl implements CourseRepository {
 
     List<QuestionEntity> questions = [];
 
-    query.docs.forEach((element) async {
-      Map data = element.data() as Map;
+    int i = 0;
+    for (i = 0; i < query.docs.length; i++) {
+      Map data = query.docs[i].data() as Map;
 
-      if (data['type'] == "NUMERICAL") {
+      print(data);
+
+      if (data['type'] == "MCQ") {
         questions.add(MCQQuestionEntity(
           questionId: data["id"],
           courseId: data['courseId'],
@@ -186,7 +189,7 @@ class CourseRepositoryImpl implements CourseRepository {
                 : null,
             courseId: data['courseId']));
       }
-    });
+    }
 
     return questions;
   }
@@ -338,6 +341,7 @@ class CourseRepositoryImpl implements CourseRepository {
       'courseId': courseId,
       'text': questionText,
       'marks': marks,
+      'type': 'MCQ',
       'media': _questionMedia,
       'options': mcqOptionsMap,
       'solution': _questionSolutionMedia
@@ -387,11 +391,12 @@ class CourseRepositoryImpl implements CourseRepository {
     return path;
   }
 
-  Future<void> enrollToCourse(String studentId, String courseId ) async {
-    await firebase.collection("students").doc(studentId).collection('courses').doc(courseId).set({
-      'id': courseId,
-      'enrolledOn' : DateTime.now()
-    });
+  Future<void> enrollToCourse(String studentId, String courseId) async {
+    await firebase
+        .collection("students")
+        .doc(studentId)
+        .collection('courses')
+        .doc(courseId)
+        .set({'id': courseId, 'enrolledOn': DateTime.now()});
   }
-
 }

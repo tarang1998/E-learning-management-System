@@ -37,19 +37,14 @@ class CourseDescriptionMainPageView extends fa.ResponsiveViewState<
               initializedState: initializedState,
             );
 
-          // case CourseDescriptionLoadingState:
-          //   CourseDescriptionLoadingState loadingState =
-          //       state as CourseDescriptionLoadingState;
-          //   return buildLoadingViewWeb(
-          //     context: context,
-          //     controller: controller,
-          //     subjectId: widget.params.subjectId,
-          //     subjectName: widget.params.subjectName,
-          //     isDeleting: loadingState.isDeleting,
-          //   );
+          case CourseDescriptionLoadingState:
+            CourseDescriptionLoadingState loadingState =
+                state as CourseDescriptionLoadingState;
+            return buildLoadingStateViewWeb();
 
-          // case CourseDescriptionErrorState:
-          //   return buildErrorViewWeb(controller: controller);
+          case CourseDescriptionErrorState:
+            return _buildErrorStateView(
+                "Some error has occured. Please try again later ");
         }
         throw Exception("Unrecognized state $currentState encountered");
       });
@@ -62,6 +57,33 @@ class CourseDescriptionMainPageView extends fa.ResponsiveViewState<
 
   @override
   Widget get watchView => throw UnimplementedError();
+
+  Widget buildLoadingStateViewWeb() {
+    return Scaffold(
+      body: Container(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorStateView(String error) {
+    return Scaffold(
+        key: globalKey,
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              Text(
+                error,
+                style: const TextStyle(
+                  color: Colors.red,
+                ),
+              )
+            ],
+          ),
+        ));
+  }
 
   Widget buildInitializationStateViewWeb(
       CourseDescriptionMainPageController controller) {

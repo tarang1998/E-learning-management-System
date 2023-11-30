@@ -1,4 +1,5 @@
 import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
+import 'package:elmsflutterapp/app/course/domain/entity/questionEntity.dart';
 
 abstract class CourseRepository {
   Future<List<CourseEntity>> getCoursesYetToBeRegistered(
@@ -19,4 +20,9 @@ abstract class CourseRepository {
 
 
   Future<CourseEntity> getCourseInfo({required String courseId});
+
+
+  Future<List<QuestionEntity>> getCourseQuestions({required String courseId});
 }
+
+

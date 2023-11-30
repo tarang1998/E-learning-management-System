@@ -1,5 +1,6 @@
 import 'package:elmsflutterapp/app/course_description/presentation/course_description_controller.dart';
 import 'package:elmsflutterapp/app/course_description/presentation/course_description_state_machine.dart';
+import 'package:elmsflutterapp/app/course_description/presentation/questionPage/question_bank_view.dart';
 import 'package:elmsflutterapp/app/course_description/presentation/widget/delete_course_dialog.dart';
 import 'package:elmsflutterapp/utils/sizeConfig.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,10 @@ class _CourseDescriptionScreenWebState extends State<CourseDescriptionScreenWeb>
                       ],
                     ),
                   ),
-                  Text("Questions"),
+                  QuestionBankPage(
+                      params: QuestionBankPageParams(
+                          shouldAddEditQuestions: true,
+                          courseId: widget.initializedState.course.id)),
                   Text("Quiz"),
                   Text("Resources"),
                 ],
@@ -124,18 +128,14 @@ class _CourseDescriptionScreenWebState extends State<CourseDescriptionScreenWeb>
               ),
             ),
             Flexible(
-              child: Hero(
-                tag: widget.initializedState.course.name,
-                child: Text(
-                  widget.initializedState.course.name,
-                  style: const TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      fontFamily: "Ubuntu"
-                      //fontFamily: "ubuntu"
-                      ),
-                ),
+              child: Text(
+                widget.initializedState.course.name,
+                style: const TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontFamily: "Ubuntu"
+                    ),
               ),
             ),
           ],
@@ -185,14 +185,13 @@ class _CourseDescriptionScreenWebState extends State<CourseDescriptionScreenWeb>
         ),
         _buildDeleteSubjectCard(
           onTap: () => showDialog(
-              context: context, builder: (_) => 
-
-              DeleteCourseDialog(
-                controller: controller,
-                courseName: initializedState.course.name,
-                courseId: initializedState.course.id,
-              ),
-              ),
+            context: context,
+            builder: (_) => DeleteCourseDialog(
+              controller: controller,
+              courseName: initializedState.course.name,
+              courseId: initializedState.course.id,
+            ),
+          ),
         )
       ],
     );
@@ -229,18 +228,15 @@ class _CourseDescriptionScreenWebState extends State<CourseDescriptionScreenWeb>
         minLeadingWidth: 10,
         title: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Hero(
-            tag: text,
-            child: Material(
-              color: Colors.transparent,
-              child: Text(
-                text,
-                style: const TextStyle(
-                    color: Colors.black87,
-                    fontSize: 18,
-                    fontFamily: "Ubuntu",
-                    fontWeight: FontWeight.w600),
-              ),
+          child: Material(
+            color: Colors.transparent,
+            child: Text(
+              text,
+              style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 18,
+                  fontFamily: "Ubuntu",
+                  fontWeight: FontWeight.w600),
             ),
           ),
         ),

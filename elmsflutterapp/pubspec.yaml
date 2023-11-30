@@ -46,7 +46,9 @@ dependencies:
   url_launcher: ^6.2.1
   cloud_functions: ^4.5.5
   http: ^0.13.4
-
+  firebase_storage: ^11.5.3
+  file_picker: ^6.1.1
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   flutter_test:

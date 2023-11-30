@@ -38,4 +38,8 @@ class CourseDescriptionMainPageController extends Controller {
         }),
         courseId: courseId);
   }
+
+  void handleCourseDeletion({required String courseId}){
+    
+  }
 }

@@ -198,7 +198,9 @@ Widget _buildSubjectCard(
   return MouseRegion(
     cursor: SystemMouseCursors.click,
     child: GestureDetector(
-      onTap: () => {},
+      onTap: () => {
+        controller.navigateToSubjectDetailsPage(courseId: course.id)
+      },
       child: Card(
         elevation: 6,
         color: subjectCardColors[index % 4],

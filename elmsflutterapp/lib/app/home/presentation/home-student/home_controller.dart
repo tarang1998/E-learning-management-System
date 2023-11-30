@@ -33,7 +33,7 @@ class HomePageStudentController extends Controller {
   }
 
   void navigateToProfilePage() {
-    // navigationService!.navigateTo(NavigationService.profilePage);
+    navigationService!.navigateTo(NavigationService.profilePage);
   }
 
   void handlePageChange(StudentUserEntity studentData, int page) {

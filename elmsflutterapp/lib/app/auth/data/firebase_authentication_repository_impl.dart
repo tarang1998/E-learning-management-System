@@ -113,4 +113,15 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
     UserConfig.resetUserData();
     return;
   }
+
+  @override
+  Future<void> resetPassword() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null && currentUser.email != null) {
+      print(currentUser.email);
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: currentUser.email!);
+    }
+    return;
+  }
 }

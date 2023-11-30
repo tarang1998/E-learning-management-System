@@ -161,4 +161,8 @@ class SigninController extends Controller {
   void refreshPage() {
     refreshUI();
   }
+
+  void naviagateToRegisterPage(){
+    _navigationService!.navigateTo(NavigationService.registerRoute,shouldReplace: true);
+  }
 }

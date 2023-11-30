@@ -141,7 +141,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 Spacer(),
                 TextButton(
                   onPressed: () {
-                   // TODO : Implement Registeration Page 
+                    widget.controller.naviagateToRegisterPage();
                   },
                   child: Text(
                     "Register",

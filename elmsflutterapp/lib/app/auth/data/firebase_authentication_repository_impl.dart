@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elmsflutterapp/app/auth/data/user_config.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/authenticate_with_email_password_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.dart';
+import 'package:elmsflutterapp/app/auth/domain/usecases/register_student_user_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +14,11 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
   final String errorCodeInvalidEmail = "invalid-email";
   final String errorCodeNetworkRequestFailed = "network-request-failed";
   final String errorCodeTooManyRequest = "too-many-requests";
+
+  final String errorCodeWeakPassword = 'weak-password';
+  final String errorCodeEmailAlreadyInUse = 'email-already-in-use';
+
+  final firebase = FirebaseFirestore.instance;
 
   @override
   Future<bool> checkLoginStatus() async {
@@ -123,5 +130,43 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
           .sendPasswordResetEmail(email: currentUser.email!);
     }
     return;
+  }
+
+  @override
+  Future<void> registerStudentUser(
+      {required String userName,
+      required String userEmail,
+      required String password}) async {
+    try {
+      UserCredential user = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: userEmail, password: password);
+
+      String studentId = user.user!.uid;
+
+      await firebase
+          .collection('students')
+          .doc(studentId)
+          .set({'id': studentId, 'name': userName, 'email': userEmail});
+    } on FirebaseAuthException catch (error) {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        if (currentUser.email == userEmail) {
+          await currentUser.delete();
+        }
+      }
+      if (error.code == errorCodeWeakPassword) {
+        throw RegisterWeakPasswordException();
+      } else if (error.code == errorCodeEmailAlreadyInUse) {
+        throw RegisterEmailAlreadyInUseException();
+      }
+    } catch (error) {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        if (currentUser.email == userEmail) {
+          await currentUser.delete();
+        }
+      }
+      throw RegisterGenericException();
+    }
   }
 }

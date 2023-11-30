@@ -3,9 +3,11 @@ import 'package:elmsflutterapp/app/auth/data/firebase_authentication_repository_
 import 'package:elmsflutterapp/app/auth/domain/repository/authentication_repository.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/authenticate_with_email_password_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.dart';
+import 'package:elmsflutterapp/app/auth/domain/usecases/register_student_user_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/reset_passsword_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/signin_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/signout_usecase.dart';
+import 'package:elmsflutterapp/app/auth/presentation/registration/presentation/registration_presenter.dart';
 import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_presenter.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/add_course_usecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/add_mcq_question_usecase.dart';
@@ -55,12 +57,16 @@ Future<void> init() async {
 
   //==========================================================
 
-  //signin
+  //auth
 
   serviceLocator.registerFactory(() => SignoutUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => ResetPasswordUsecase(serviceLocator()));
+  serviceLocator
+      .registerFactory(() => RegisterStudentUserUsecase(serviceLocator()));
   serviceLocator.registerFactory(
       () => SigninPresenter(serviceLocator(), serviceLocator()));
+  serviceLocator
+      .registerFactory(() => RegistrationPagePresenter(serviceLocator()));
   serviceLocator.registerFactory(() => ForgotPasswordUsecase(serviceLocator()));
   serviceLocator.registerFactory(
       () => AuthenticateWithEmailAndPasswordUseCase(serviceLocator()));
@@ -93,8 +99,8 @@ Future<void> init() async {
   //==========================================================
 
   //register-courses
-  serviceLocator
-      .registerFactory(() => RegisterCoursePresenter(serviceLocator(),serviceLocator()));
+  serviceLocator.registerFactory(
+      () => RegisterCoursePresenter(serviceLocator(), serviceLocator()));
   //dashboard-student-registered-courses
   serviceLocator.registerFactory(() => DashboardPresenter(serviceLocator()));
 

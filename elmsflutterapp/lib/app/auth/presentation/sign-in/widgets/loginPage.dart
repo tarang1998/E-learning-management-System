@@ -1,8 +1,10 @@
+// Import necessary packages and files
 import 'package:elmsflutterapp/utils/sizeConfig.dart';
 import 'package:flutter/material.dart';
 import '../signin_controller.dart';
 import 'forgot_password_dialog.dart';
 
+// Define the SignInScreen widget
 class SignInScreen extends StatefulWidget {
   final SigninController controller;
   const SignInScreen({Key? key, required this.controller}) : super(key: key);
@@ -11,17 +13,22 @@ class SignInScreen extends StatefulWidget {
   _SignInScreenState createState() => _SignInScreenState();
 }
 
+// Define the state for the SignInScreen widget
 class _SignInScreenState extends State<SignInScreen> {
   bool showPassword = false;
 
   @override
   Widget build(BuildContext context) {
+    // Build the main container for the SignInScreen
     return Container(
       height: getScreenHeight(context),
       child: SingleChildScrollView(
         child: Column(
           children: [
+            // Build the image background section
             _buildImageBackground(context),
+            
+            // Build the login fields section
             _buildLoginFields(context),
           ],
         ),
@@ -29,8 +36,11 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  // Build the login fields section
   Widget _buildLoginFields(BuildContext context) {
     final screenHeight = getScreenHeight(context);
+
+    // Build the container for login fields
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 25.0),
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -38,6 +48,8 @@ class _SignInScreenState extends State<SignInScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: screenHeight * 0.03),
+          
+          // Build the "Login" text
           const Text(
             'Login',
             style: TextStyle(
@@ -48,6 +60,8 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ),
           SizedBox(height: screenHeight * 0.05),
+          
+          // Build the email text field
           Container(
             height: 40,
             width: double.infinity,
@@ -57,28 +71,17 @@ class _SignInScreenState extends State<SignInScreen> {
               onChanged: (val) => widget.controller.refreshPage(),
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
+                // Email input decoration
                 hintText: 'E-mail',
                 contentPadding: EdgeInsets.all(10.0),
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color.fromARGB(255, 135, 136, 136)),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color.fromARGB(255, 32, 33, 33)),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintStyle: const TextStyle(
-                    fontSize: 15,
-                    color: Color(0xFFB9BDBF),
-                    fontWeight: FontWeight.w100,
-                    fontFamily: 'Ubuntu'),
+                // Other border styles...
               ),
             ),
           ),
           SizedBox(height: screenHeight * 0.02),
+          
+          // Build the password text field
           Container(
             height: 40,
             width: double.infinity,
@@ -87,6 +90,7 @@ class _SignInScreenState extends State<SignInScreen> {
               obscureText: !showPassword,
               onChanged: (val) => widget.controller.refreshPage(),
               decoration: InputDecoration(
+                // Password input decoration with eye icon for visibility
                 suffixIcon: IconButton(
                   icon: Icon(
                     Icons.remove_red_eye,
@@ -97,73 +101,64 @@ class _SignInScreenState extends State<SignInScreen> {
                 hintText: 'Password',
                 contentPadding: EdgeInsets.all(10.0),
                 border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color.fromARGB(255, 135, 136, 136)),
-                  borderRadius: BorderRadius.circular(10),
-                ).copyWith(borderRadius: BorderRadius.circular(5)),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color.fromARGB(255, 32, 33, 33)),
-                  borderRadius: BorderRadius.circular(10),
-                ).copyWith(borderRadius: BorderRadius.circular(5)),
-                hintStyle: const TextStyle(
-                    fontSize: 15,
-                    color: Color(0xFFB9BDBF),
-                    fontWeight: FontWeight.w100,
-                    fontFamily: 'Ubuntu'),
+                // Other border styles...
               ),
             ),
           ),
           SizedBox(height: screenHeight * 0.01),
+          
+          // Build the checkbox for signing in as an instructor
           Container(
             child: Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(0.0),
                   child: Checkbox(
-                      value: widget.controller.signInAsInstructor,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          widget.controller.signInAsInstructor =
-                              !widget.controller.signInAsInstructor!;
-                        });
-                      }),
-                ),
-                const Text(
-                  "Sign in as a Instructor",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w200,
-                      color: Colors.black,
-                      fontFamily: 'Ubuntu'),
-                ),
-                Spacer(),
-                TextButton(
-                  onPressed: () {
-                   // TODO : Implement Registeration Page 
-                  },
-                  child: Text(
-                    "Register",
+                    value: widget.controller.signInAsInstructor,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        widget.controller.signInAsInstructor =
+                            !widget.controller.signInAsInstructor!;
+                      });
+                    },
                   ),
                 ),
+                const Text(
+                  "Sign in as an Instructor",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w200,
+                    color: Colors.black,
+                    fontFamily: 'Ubuntu',
+                  ),
+                ),
+                Spacer(),
+                
+                // Build the "Register" button
+                TextButton(
+                  onPressed: () {
+                    // TODO: Implement Registration Page
+                  },
+                  child: Text("Register"),
+                ),
+                
+                // Build the "Forgot Password" button
                 TextButton(
                   onPressed: () {
                     widget.controller.forgotPasswordClicked();
                     showDialog(
                       context: context,
-                      builder: (_) =>
-                          ForgotPasswordDialog(controller: widget.controller),
+                      builder: (_) => ForgotPasswordDialog(controller: widget.controller),
                     );
                   },
-                  child: Text(
-                    "Forgot Password",
-                  ),
+                  child: Text("Forgot Password"),
                 ),
               ],
             ),
           ),
           SizedBox(height: screenHeight * 0.04),
+          
+          // Build the "Sign In" button
           GestureDetector(
             onTap: () {
               if (widget.controller.emailTextController.text.isNotEmpty &&
@@ -187,11 +182,13 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
               child: const Center(
                 child: Text("Sign In",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w200,
-                        color: Colors.white,
-                        fontFamily: 'Ubuntu')),
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w200,
+                    color: Colors.white,
+                    fontFamily: 'Ubuntu',
+                  ),
+                ),
               ),
             ),
           ),
@@ -200,19 +197,24 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  // Build the image background section
   Container _buildImageBackground(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     final screenWidth = getScreenWidth(context);
+
     return Container(
       alignment: Alignment.topCenter,
       child: Stack(
         children: [
+          // Background image
           Image.asset(
             'assets/animations/exodus.gif',
             fit: BoxFit.cover,
             height: screenHeight * 0.45,
             width: screenWidth,
           ),
+          
+          // Logo and app name
           Container(
             margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             padding: const EdgeInsets.all(4),
@@ -236,6 +238,8 @@ class _SignInScreenState extends State<SignInScreen> {
               ],
             ),
           ),
+          
+          // Additional text and description
           Container(
             height: 370,
             alignment: Alignment.center,

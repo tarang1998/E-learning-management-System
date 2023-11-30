@@ -1,29 +1,35 @@
+// Import statements for the required packages and classes
 import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses_controller.dart';
 import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses_state_machine.dart';
 import 'package:elmsflutterapp/app/all-courses-admin/presentation/widget/add_subject_dialogue.dart';
 import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/flutter_clean_architecture.dart'
-    as fa;
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart' as fa;
 
+// Class definition for the AllCoursesViewPage, extending the fa.View class
 class AllCoursesViewPage extends fa.View {
   @override
   State<StatefulWidget> createState() => AllCoursesViewPageState();
 }
 
+// Class definition for the AllCoursesViewPageState, extending ResponsiveViewState
 class AllCoursesViewPageState
     extends fa.ResponsiveViewState<AllCoursesViewPage, AllCoursesController> {
+  // Constructor initializing the state with an instance of AllCoursesController
   AllCoursesViewPageState() : super(AllCoursesController());
 
+  // Override method to build the desktop view
   @override
   Widget get desktopView => fa.ControlledWidgetBuilder<AllCoursesController>(
           builder: (context, controller) {
+        // Obtain the current state and its type for debugging
         final currentState = controller.getCurrentState();
         final currentStateType = controller.getCurrentState().runtimeType;
         print(
           "buildDesktopView called with state $currentStateType",
         );
 
+        // Switch statement to handle different states and return the corresponding view
         switch (currentStateType) {
           case AllCoursesPageInitializationState:
             return buildInitializationStateViewWeb(controller);
@@ -42,15 +48,19 @@ class AllCoursesViewPageState
         throw Exception("Unrecognized state $currentStateType encountered");
       });
 
+  // Override method to return the mobile view
   @override
   Widget get mobileView => desktopView;
 
+  // Override method to return the tablet view
   @override
   Widget get tabletView => mobileView;
 
+  // Override method (not implemented) for watch view
   @override
   Widget get watchView => throw UnimplementedError();
 
+  // Method to build the view for the initialization state on the web
   Widget buildInitializationStateViewWeb(AllCoursesController controller) {
     controller.initializeScreen();
     return Scaffold(
@@ -62,6 +72,7 @@ class AllCoursesViewPageState
     );
   }
 
+  // Method to build the loading state view
   Widget loadingState(AllCoursesController controller) {
     return Scaffold(
       body: Container(
@@ -72,6 +83,7 @@ class AllCoursesViewPageState
     );
   }
 
+  // Method to build the error state view
   Widget _buildErrorStateView(String error) {
     return Scaffold(
         key: globalKey,
@@ -89,6 +101,7 @@ class AllCoursesViewPageState
         ));
   }
 
+  // Method to build the view for the initialized state on the web
   Widget buildInitializedStateViewWeb(
       AllCoursesController controller, AllCoursesPageInitializedState state) {
     return Scaffold(
@@ -136,6 +149,7 @@ class AllCoursesViewPageState
   }
 }
 
+// Method to build the card for adding a new subject
 Widget buildAddSubjectCard(
   BuildContext context,
   AllCoursesController controller,
@@ -183,6 +197,7 @@ Widget buildAddSubjectCard(
   );
 }
 
+// List of colors for the subject cards
 List<Color> get subjectCardColors => [
       Colors.black87.withOpacity(0.7),
       Colors.blue.withOpacity(0.7),
@@ -190,6 +205,7 @@ List<Color> get subjectCardColors => [
       Colors.amber.withOpacity(0.7),
     ];
 
+// Method to build a subject card
 Widget _buildSubjectCard(
     AllCoursesController controller, CourseEntity course, int index) {
   return GestureDetector(
@@ -232,6 +248,8 @@ Widget _buildSubjectCard(
           Expanded(
             child: Container(
               decoration: BoxDecoration(
+                  color: Colors.red
+                  decoration: BoxDecoration(
                   color: Colors.red, borderRadius: BorderRadius.circular(5)),
               alignment: Alignment.center,
               child: Text(

@@ -32,4 +32,6 @@ abstract class CourseRepository {
       required List<MCQOptionEntity> options,
       required String questionSolutionText,
       required List<PlatformFile> questionSolutionImages});
+
+  Future<void> enrollToCourse(String studentId, String courseId );
 }

@@ -79,6 +79,7 @@ class _ExpandedSolutionSectionState extends State<ExpandedSolutionSection> {
           margin: const EdgeInsets.all(5),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: TextFormField(
+            onChanged: (val)=>widget.controller.refreshPage(),
             controller: widget.controller.solutionSectionText,
             scrollPadding: const EdgeInsets.symmetric(vertical: 10),
             style: const TextStyle(

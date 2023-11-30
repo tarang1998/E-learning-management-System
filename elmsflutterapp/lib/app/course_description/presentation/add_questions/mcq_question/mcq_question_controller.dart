@@ -1,10 +1,12 @@
 import 'package:elmsflutterapp/app/course/domain/entity/questionEntity.dart';
 import 'package:elmsflutterapp/app/course_description/presentation/add_questions/mcq_question/mcq_question_presenter.dart';
 import 'package:elmsflutterapp/app/navigation_service.dart';
+import 'package:elmsflutterapp/core/presentation/observer.dart';
 import 'package:elmsflutterapp/injection_container.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'mcq_question_state_machine.dart';
 
@@ -30,6 +32,10 @@ class MCQQuestionController extends Controller {
   MCQQuestionState getCurrentState() => _stateMachine.getCurrentState()!;
 
   void handleBackPress() => _navigationService.navigateBack();
+
+  void refreshPage(){
+    refreshUI();
+  }
 
   void initialize(courseId) {
     Map<int, List<PlatformFile>> optionImages = {};
@@ -107,9 +113,8 @@ class MCQQuestionController extends Controller {
     if (questionText.isEmpty && addInitializedState!.questionImages.isEmpty)
       return false;
 
-    if (solutionSectionText.text.isEmpty && addInitializedState!.solutionImages.isEmpty)
-      return false;
-
+    if (solutionSectionText.text.isEmpty &&
+        addInitializedState!.solutionImages.isEmpty) return false;
 
     int optionCounter = 0;
     int tickCounter = 0;
@@ -141,6 +146,7 @@ class MCQQuestionController extends Controller {
   void handleAddQuestion({
     required List<MCQOptionEntity> options,
     required String questionText,
+    required num marks,
     required String courseId,
     required List<PlatformFile> questionImages,
     required Map<int, List<PlatformFile>?>? optionMedia,
@@ -150,26 +156,25 @@ class MCQQuestionController extends Controller {
     _stateMachine.onEvent(MCQQuestionLoadingEvent());
     refreshUI();
 
-
-    // _presenter.addQuestion(
-    //     UseCaseObserver(
-    //       () {
-    //         _presenter
-    //             .notifySubmissionOfQuestion(UseCaseObserver(() {}, (error) {}));
-    //         UtilitiesWrapper.toast(msg: 'Question Added Successfully');
-    //         _navigationService.navigateBack();
-    //         if (isWeb) _navigationService.navigateBack();
-    //       },
-    //       (error) {
-    //         _stateMachine.onEvent(MCQQuestionErrorEvent());
-    //         refreshUI();
-    //       },
-    //     ),
-    //     question: question,
-    //     questionMedia: questionImages,
-    //     optionMedia: optionMedia,
-    //     bloomsName: bloom?.bloomName,
-    //     questionSolutionImages: questionSolutionImages,
-    //     questionSolutionText: solutionSectionText.text);
+    _presenter.addMCQQuestion(
+        UseCaseObserver(
+          () {
+            Fluttertoast.showToast(msg: 'Question Added Successfully');
+            _navigationService.navigateBack();
+            _navigationService.navigateBack();
+          },
+          (error) {
+            _stateMachine.onEvent(MCQQuestionErrorEvent());
+            refreshUI();
+          },
+        ),
+        courseId: courseId,
+        optionMedia: optionMedia,
+        options: options,
+        questionImages: questionImages,
+        questionSolutionImages: questionSolutionImages ?? [],
+        questionSolutionText: questionSolutionText,
+        questionText: questionText,
+        marks: marks);
   }
 }

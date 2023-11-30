@@ -79,6 +79,7 @@ class _SubmitButtonWidgetState extends State<SubmitButtonWidget> {
                 questionText: widget.questionText,
                 addInitializedState: widget.addInitializedState)) {
               widget.controller.handleAddQuestion(
+                marks: widget.maxMarks,
                 courseId: widget.addInitializedState!.courseId,
                 optionMedia: widget.addInitializedState!.optionImages,
                 questionImages: widget.addInitializedState!.questionImages,

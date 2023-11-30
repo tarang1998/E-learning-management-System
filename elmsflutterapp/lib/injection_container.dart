@@ -6,6 +6,7 @@ import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.
 import 'package:elmsflutterapp/app/auth/domain/usecases/signin_usecase.dart';
 import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_presenter.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/add_course_usecase.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/add_mcq_question_usecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/getCourseInfoUsecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/get_course_questions_usecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/get_instructor_courses_usecase.dart';
@@ -95,18 +96,15 @@ Future<void> init() async {
   serviceLocator.registerFactory(
       () => CourseDescriptionMainPagePresenter(serviceLocator()));
   //course-description - question - bank
-  serviceLocator.registerFactory(
-      () => QuestionBankPresenter(serviceLocator()));
+  serviceLocator.registerFactory(() => QuestionBankPresenter(serviceLocator()));
   //add-question-mcq
-    serviceLocator.registerFactory(
-      () => MCQQuestionPresenter());
-
-  
-  
+  serviceLocator.registerFactory(() => MCQQuestionPresenter(serviceLocator()));
 
   //courses
 
-  serviceLocator.registerFactory(() => GetCourseQuestionsUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => AddMCQQuestionUsecase(serviceLocator()));
+  serviceLocator
+      .registerFactory(() => GetCourseQuestionsUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => GetCourseInfoUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => AddCourseUsecase(serviceLocator()));
   serviceLocator
@@ -122,9 +120,7 @@ Future<void> init() async {
 
   //==========================================================
 
-
   serviceLocator.registerLazySingleton(() => FirebaseStorageWrapper());
-
 }
 
 Future<void> reset() async {
@@ -133,5 +129,4 @@ Future<void> reset() async {
   serviceLocator.resetLazySingleton<AuthenticationRepository>();
   serviceLocator.resetLazySingleton<CourseRepository>();
   serviceLocator.resetLazySingleton<FirebaseStorageWrapper>();
-
 }

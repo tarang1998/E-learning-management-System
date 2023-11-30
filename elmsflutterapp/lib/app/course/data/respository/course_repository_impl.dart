@@ -386,4 +386,12 @@ class CourseRepositoryImpl implements CourseRepository {
 
     return path;
   }
+
+  Future<void> enrollToCourse(String studentId, String courseId ) async {
+    await firebase.collection("students").doc(studentId).collection('courses').doc(courseId).set({
+      'id': courseId,
+      'enrolledOn' : DateTime.now()
+    });
+  }
+
 }

@@ -9,6 +9,7 @@ import 'package:elmsflutterapp/app/auth/domain/usecases/signout_usecase.dart';
 import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_presenter.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/add_course_usecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/add_mcq_question_usecase.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/enroll_to_course_usecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/getCourseInfoUsecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/get_course_questions_usecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/get_instructor_courses_usecase.dart';
@@ -93,7 +94,7 @@ Future<void> init() async {
 
   //register-courses
   serviceLocator
-      .registerFactory(() => RegisterCoursePresenter(serviceLocator()));
+      .registerFactory(() => RegisterCoursePresenter(serviceLocator(),serviceLocator()));
   //dashboard-student-registered-courses
   serviceLocator.registerFactory(() => DashboardPresenter(serviceLocator()));
 
@@ -112,7 +113,7 @@ Future<void> init() async {
   serviceLocator.registerFactory(() => MCQQuestionPresenter(serviceLocator()));
 
   //courses
-
+  serviceLocator.registerFactory(() => EnrollToCourseUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => AddMCQQuestionUsecase(serviceLocator()));
   serviceLocator
       .registerFactory(() => GetCourseQuestionsUsecase(serviceLocator()));

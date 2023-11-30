@@ -19,6 +19,10 @@ class RegisterCoursePageStateMachine
             courses: initializedEvent.courses);
         break;
 
+      case RegisterCoursePageLoadingEvent:
+        newState = RegisterCourseLoadingState();
+        break;
+
       case RegisterCoursePageErrorEvent:
         newState = RegisterCoursePageErrorState();
         break;
@@ -35,7 +39,7 @@ abstract class RegisterCoursePageEvent {}
 
 class RegisterCoursePageLoadingEvent extends RegisterCoursePageEvent {}
 
-class RegisterCoursePageRefreshEvent extends RegisterCoursePageEvent{}
+class RegisterCoursePageRefreshEvent extends RegisterCoursePageEvent {}
 
 class RegisterCoursePageInitializedEvent extends RegisterCoursePageEvent {
   List<CourseEntity> courses;
@@ -59,5 +63,7 @@ class RegisterCoursePageInitializedState implements RegisterCoursePageState {
     required this.courses,
   });
 }
+
+class RegisterCourseLoadingState implements RegisterCoursePageState {}
 
 class RegisterCoursePageErrorState implements RegisterCoursePageState {}

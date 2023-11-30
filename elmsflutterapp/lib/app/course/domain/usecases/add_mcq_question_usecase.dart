@@ -25,6 +25,7 @@ class AddMCQQuestionUsecase
       );
       streamController.close();
     } catch (error) {
+      print(error);
       streamController.addError(error);
     }
     return streamController.stream;

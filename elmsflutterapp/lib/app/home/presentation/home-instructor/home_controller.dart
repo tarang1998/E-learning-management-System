@@ -36,7 +36,9 @@ class HomePageInstructorController extends Controller {
     refreshUI();
   }
 
-  void navigateToProfilePage() {}
+  void navigateToProfilePage() {
+    navigationService!.navigateTo(NavigationService.profilePage);
+  }
 
   HomePageInstructorState? getCurrentState() {
     return _stateMachine.getCurrentState();

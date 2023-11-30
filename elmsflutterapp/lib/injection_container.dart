@@ -3,7 +3,9 @@ import 'package:elmsflutterapp/app/auth/data/firebase_authentication_repository_
 import 'package:elmsflutterapp/app/auth/domain/repository/authentication_repository.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/authenticate_with_email_password_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.dart';
+import 'package:elmsflutterapp/app/auth/domain/usecases/reset_passsword_usecase.dart';
 import 'package:elmsflutterapp/app/auth/domain/usecases/signin_usecase.dart';
+import 'package:elmsflutterapp/app/auth/domain/usecases/signout_usecase.dart';
 import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_presenter.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/add_course_usecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/add_mcq_question_usecase.dart';
@@ -28,6 +30,7 @@ import 'package:elmsflutterapp/app/course/domain/repository/course_repository.da
 import 'package:elmsflutterapp/app/course/domain/usecases/get_all_courses.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/get_courses_yet_to_registered.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/get_enrolled_courses_for_student_usecase.dart';
+import 'package:elmsflutterapp/app/profile/presentation/profile_page_presenter.dart';
 import 'package:elmsflutterapp/app/register-courses-student/presentation/register-course_presenter.dart';
 import 'package:elmsflutterapp/app/splash_screen/presentation/splash_presenter.dart';
 import 'package:elmsflutterapp/core/data/firebase_storage.dart';
@@ -52,6 +55,9 @@ Future<void> init() async {
   //==========================================================
 
   //signin
+
+  serviceLocator.registerFactory(() => SignoutUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => ResetPasswordUsecase(serviceLocator()));
   serviceLocator.registerFactory(
       () => SigninPresenter(serviceLocator(), serviceLocator()));
   serviceLocator.registerFactory(() => ForgotPasswordUsecase(serviceLocator()));
@@ -61,6 +67,11 @@ Future<void> init() async {
       .registerFactory(() => SignInUsecase(serviceLocator(), serviceLocator()));
   serviceLocator.registerLazySingleton<AuthenticationRepository>(
       () => FirebaseAuthenticationRepository());
+  //==========================================================
+
+//profile
+  serviceLocator.registerFactory(() => ProfilePagePresenter(
+      serviceLocator(), serviceLocator(), serviceLocator()));
 
   //==========================================================
 

@@ -1,6 +1,7 @@
 import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses_presenter.dart';
 import 'package:elmsflutterapp/app/all-courses-admin/presentation/all_courses_state_machine.dart';
 import 'package:elmsflutterapp/app/course/domain/entity/courseEntity.dart';
+import 'package:elmsflutterapp/app/course_description/presentation/course_description_view.dart';
 import 'package:elmsflutterapp/app/navigation_service.dart';
 import 'package:elmsflutterapp/core/presentation/observer.dart';
 import 'package:elmsflutterapp/injection_container.dart';
@@ -64,5 +65,10 @@ class AllCoursesController extends Controller {
         courseName: courseName,
         courseCode: courseCode,
         courseDescription: courseDescription);
+  }
+
+  void navigateToSubjectDetailsPage({required String courseId}) {
+    _navigationService!.navigateTo(NavigationService.courseDescription,
+        arguments: CourseDescriptionMainPageParams(courseId: courseId));
   }
 }

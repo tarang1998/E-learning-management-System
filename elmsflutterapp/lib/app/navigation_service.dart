@@ -2,6 +2,7 @@ import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_view.dart';
 import 'package:elmsflutterapp/app/course_description/presentation/course_description_view.dart';
 import 'package:elmsflutterapp/app/home/presentation/home-instructor/home_view.dart';
 import 'package:elmsflutterapp/app/home/presentation/home-student/home_view.dart';
+import 'package:elmsflutterapp/app/profile/presentation/profile_page_view.dart';
 import 'package:elmsflutterapp/app/splash_screen/presentation/splash_view.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,9 @@ class AppNavigationService extends NavigationService {
 
       case NavigationService.signInRoute:
         return MaterialPageRoute(builder: (_) => SignInPage());
+
+      case NavigationService.profilePage:
+        return MaterialPageRoute(builder: (_) => ProfilePage());
 
       case NavigationService.homepageStudent:
         return MaterialPageRoute(builder: (_) => HomePageStudent());
@@ -70,6 +74,7 @@ abstract class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static const String splashScreen = '/splash';
   static const String signInRoute = "/signin";
+  static const String profilePage = "/profile";
   static const String homepageStudent = '/home-student';
   static const String homepageInstructor = '/home-instructor';
   static const String courseDescription = '/course-description';

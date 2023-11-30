@@ -7,4 +7,6 @@ abstract class AuthenticationRepository {
   Future<void> forgotPassword({required String emailId});
 
   Future<void> logout();
+
+  Future<void> resetPassword();
 }

@@ -140,43 +140,46 @@ Widget buildAddSubjectCard(
   BuildContext context,
   AllCoursesController controller,
 ) {
-  return GestureDetector(
-    onTap: () {
-      showDialog(
-          context: context,
-          builder: (_) => AddSubjectDialog(
-              onBack: controller.handleBackEvent,
-              onAdd: (subjectName, subjectCode, subjectDescription) {
-                controller.addCourse(
-                    courseName: subjectName,
-                    courseCode: subjectCode,
-                    courseDescription: subjectDescription);
-              }));
-    },
-    child: Card(
-      elevation: 6,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(color: Colors.blue, width: 2.5)),
-      child: Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.add,
-              size: 100,
-              color: Colors.blue,
-            ),
-            const SizedBox(height: 15),
-            Text(
-              "Add Course",
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 20,
+  return MouseRegion(
+    cursor: SystemMouseCursors.click,
+    child: GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (_) => AddSubjectDialog(
+                onBack: controller.handleBackEvent,
+                onAdd: (subjectName, subjectCode, subjectDescription) {
+                  controller.addCourse(
+                      courseName: subjectName,
+                      courseCode: subjectCode,
+                      courseDescription: subjectDescription);
+                }));
+      },
+      child: Card(
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: const BorderSide(color: Colors.blue, width: 2.5)),
+        child: Container(
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.add,
+                size: 100,
+                color: Colors.blue,
               ),
-            )
-          ],
+              const SizedBox(height: 15),
+              Text(
+                "Add Course",
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 20,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     ),
@@ -192,59 +195,62 @@ List<Color> get subjectCardColors => [
 
 Widget _buildSubjectCard(
     AllCoursesController controller, CourseEntity course, int index) {
-  return GestureDetector(
-    onTap: () => {},
-    child: Card(
-      elevation: 6,
-      color: subjectCardColors[index % 4],
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                course.courseCode,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 35,
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.bold,
+  return MouseRegion(
+    cursor: SystemMouseCursors.click,
+    child: GestureDetector(
+      onTap: () => {},
+      child: Card(
+        elevation: 6,
+        color: subjectCardColors[index % 4],
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  course.courseCode,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 35,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              color: Colors.white,
-              width: double.infinity,
-              alignment: Alignment.topCenter,
-              padding: const EdgeInsets.all(4),
-              child: Text(
-                course.name,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                width: double.infinity,
+                alignment: Alignment.topCenter,
+                padding: const EdgeInsets.all(4),
+                child: Text(
+                  course.name,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.red, borderRadius: BorderRadius.circular(5)),
-              alignment: Alignment.center,
-              child: Text(
-                "Go to course",
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.red, borderRadius: BorderRadius.circular(5)),
+                alignment: Alignment.center,
+                child: Text(
+                  "Go to course",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );

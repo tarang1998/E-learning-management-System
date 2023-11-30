@@ -6,7 +6,13 @@ import 'package:elmsflutterapp/app/auth/domain/usecases/forgot_password_usecase.
 import 'package:elmsflutterapp/app/auth/domain/usecases/signin_usecase.dart';
 import 'package:elmsflutterapp/app/auth/presentation/sign-in/signin_presenter.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/add_course_usecase.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/add_mcq_question_usecase.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/getCourseInfoUsecase.dart';
+import 'package:elmsflutterapp/app/course/domain/usecases/get_course_questions_usecase.dart';
 import 'package:elmsflutterapp/app/course/domain/usecases/get_instructor_courses_usecase.dart';
+import 'package:elmsflutterapp/app/course_description/presentation/add_questions/mcq_question/mcq_question_presenter.dart';
+import 'package:elmsflutterapp/app/course_description/presentation/course_description_presenter.dart';
+import 'package:elmsflutterapp/app/course_description/presentation/questionPage/question_bank_presenter.dart';
 import 'package:elmsflutterapp/app/dashboard-student/presentation/dashboard_presenter.dart';
 import 'package:elmsflutterapp/app/home/data/repository/home_repository_impl.dart';
 import 'package:elmsflutterapp/app/home/data/wrapper/home_firebase_wrapper.dart';
@@ -24,6 +30,7 @@ import 'package:elmsflutterapp/app/course/domain/usecases/get_courses_yet_to_reg
 import 'package:elmsflutterapp/app/course/domain/usecases/get_enrolled_courses_for_student_usecase.dart';
 import 'package:elmsflutterapp/app/register-courses-student/presentation/register-course_presenter.dart';
 import 'package:elmsflutterapp/app/splash_screen/presentation/splash_presenter.dart';
+import 'package:elmsflutterapp/core/data/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 
 final serviceLocator = GetIt.instance;
@@ -83,10 +90,22 @@ Future<void> init() async {
   serviceLocator
       .registerFactory(() => InstructorCoursesPresenter(serviceLocator()));
   //admin-all-courses
-  serviceLocator.registerFactory(() => AllCoursesPresenter(serviceLocator(),serviceLocator()));
+  serviceLocator.registerFactory(
+      () => AllCoursesPresenter(serviceLocator(), serviceLocator()));
+  //course-description
+  serviceLocator.registerFactory(
+      () => CourseDescriptionMainPagePresenter(serviceLocator()));
+  //course-description - question - bank
+  serviceLocator.registerFactory(() => QuestionBankPresenter(serviceLocator()));
+  //add-question-mcq
+  serviceLocator.registerFactory(() => MCQQuestionPresenter(serviceLocator()));
 
   //courses
 
+  serviceLocator.registerFactory(() => AddMCQQuestionUsecase(serviceLocator()));
+  serviceLocator
+      .registerFactory(() => GetCourseQuestionsUsecase(serviceLocator()));
+  serviceLocator.registerFactory(() => GetCourseInfoUsecase(serviceLocator()));
   serviceLocator.registerFactory(() => AddCourseUsecase(serviceLocator()));
   serviceLocator
       .registerFactory(() => GetInstructorCoursesUsecase(serviceLocator()));
@@ -100,6 +119,8 @@ Future<void> init() async {
       .registerLazySingleton<CourseRepository>(() => CourseRepositoryImpl());
 
   //==========================================================
+
+  serviceLocator.registerLazySingleton(() => FirebaseStorageWrapper());
 }
 
 Future<void> reset() async {
@@ -107,4 +128,5 @@ Future<void> reset() async {
   serviceLocator.resetLazySingleton<HomeFirebaseWrapper>();
   serviceLocator.resetLazySingleton<AuthenticationRepository>();
   serviceLocator.resetLazySingleton<CourseRepository>();
+  serviceLocator.resetLazySingleton<FirebaseStorageWrapper>();
 }

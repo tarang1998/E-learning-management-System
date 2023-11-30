@@ -10,8 +10,8 @@ class InstructorCoursesViewPage extends fa.View {
   State<StatefulWidget> createState() => InstructorCoursesViewPageState();
 }
 
-class InstructorCoursesViewPageState extends fa
-    .ResponsiveViewState<InstructorCoursesViewPage, InstructorCoursesController> {
+class InstructorCoursesViewPageState extends fa.ResponsiveViewState<
+    InstructorCoursesViewPage, InstructorCoursesController> {
   InstructorCoursesViewPageState() : super(InstructorCoursesController());
 
   @override
@@ -48,7 +48,8 @@ class InstructorCoursesViewPageState extends fa
   @override
   Widget get watchView => throw UnimplementedError();
 
-  Widget buildInitializationStateViewWeb(InstructorCoursesController controller) {
+  Widget buildInitializationStateViewWeb(
+      InstructorCoursesController controller) {
     controller.initializeScreen();
     return Scaffold(
       body: Container(
@@ -127,62 +128,64 @@ List<Color> get subjectCardColors => [
       Colors.green.withOpacity(0.7),
       Colors.amber.withOpacity(0.7),
     ];
-
 Widget _buildSubjectCard(
     InstructorCoursesController controller, CourseEntity course, int index) {
-  return GestureDetector(
-    onTap: () => {},
-    child: Card(
-      elevation: 6,
-      color: subjectCardColors[index % 4],
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                course.courseCode,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 35,
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.bold,
+  return MouseRegion(
+    cursor: SystemMouseCursors.click,
+    child: GestureDetector(
+      onTap: () => {controller.navigateToSubjectDetailsPage(courseId: course.id)},
+      child: Card(
+        elevation: 6,
+        color: subjectCardColors[index % 4],
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  course.courseCode,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 35,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              color: Colors.white,
-              width: double.infinity,
-              alignment: Alignment.topCenter,
-              padding: const EdgeInsets.all(4),
-              child: Text(
-                course.name,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                width: double.infinity,
+                alignment: Alignment.topCenter,
+                padding: const EdgeInsets.all(4),
+                child: Text(
+                  course.name,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.red, borderRadius: BorderRadius.circular(5)),
-              alignment: Alignment.center,
-              child: Text(
-                "Go to course",
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.red, borderRadius: BorderRadius.circular(5)),
+                alignment: Alignment.center,
+                child: Text(
+                  "Go to course",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );

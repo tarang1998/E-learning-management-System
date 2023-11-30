@@ -10,6 +10,7 @@ void main() async {
           apiKey: "AIzaSyC76lH-WJ2XzUQV8OZVtlWcfwONGd1bQVQ",
           projectId: "elms-88a47",
           messagingSenderId: "407067330546",
+          storageBucket: "gs://elms-88a47.appspot.com",
           appId: "1:407067330546:web:499cbea40637783c168d6b"));
 
   runApp(const MyApp());
